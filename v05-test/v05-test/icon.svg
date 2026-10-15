@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="X巡回収集BOX">
+  <rect width="512" height="512" rx="112" fill="#16386b"/>
+  <circle cx="256" cy="256" r="190" fill="#1d4b88"/>
+  <path d="M230 126h52v116h49l-75 74-75-74h49z" fill="#5ce0c7"/>
+  <path d="M124 270v92a24 24 0 0 0 24 24h216a24 24 0 0 0 24-24v-92h-40v76H164v-76z" fill="#fff"/>
+  <circle cx="216" cy="420" r="10" fill="#5ce0c7"/>
+  <circle cx="256" cy="420" r="10" fill="#5ce0c7"/>
+  <circle cx="296" cy="420" r="10" fill="#5ce0c7"/>
+</svg>
