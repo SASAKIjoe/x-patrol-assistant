@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#173e39">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>X巡回アシスタント V0.4</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<main>
+  <header class="masthead"><div class="brand"><span class="brandmark" aria-hidden="true">↗</span><span>X PATROL <small>V0.4 / TEST</small></span></div><span class="local-badge">端末内保存</span></header>
+  <div class="intro"><p class="eyebrow">気になる人との、次のきっかけ。</p><h1>X巡回アシスタント</h1><p class="muted">ジャンルから投稿を探して、気になる人を少しずつ。</p></div>
+  <p id="storageStatus" class="storage-status" role="status" aria-live="polite"></p>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  <section id="recovery" class="card recovery" hidden><h2>保存データを確認してください</h2><p id="recoveryReason"></p><p>元の保存データは残っています。バックアップを復元するか、元データを保存してから新しく始められます。</p><div class="row"><button id="exportRaw" type="button" class="secondary">元データを保存</button><button id="newData" type="button" class="secondary">新しく始める</button></div></section>
+  <div id="stats" class="stats" aria-label="登録状況"></div>
+  <nav class="tabs" aria-label="ページ切り替え"><button type="button" data-page="discover" aria-current="page">投稿から登録</button><button type="button" data-page="people">交流候補</button><button type="button" data-page="genres">ジャンル</button><button type="button" data-page="patrol">朝夜巡回</button><button type="button" data-page="backup">バックアップ</button></nav>
+  <section id="discover" class="page card" aria-labelledby="discoverTitle">
+    <div class="section-heading"><span class="step">01</span><div><h2 id="discoverTitle">ジャンルから投稿を探す</h2><p class="muted">Xの検索結果を開き、気になる投稿を見つけます。</p></div></div>
+    <div class="fields"><label for="searchGenre">ジャンル<select id="searchGenre"></select></label><label for="keyword">検索キーワード<select id="keyword"></select></label></div>
+    <div class="row"><a id="searchX" class="button" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer">Xで関連投稿を検索 ↗</a><button id="editSearchWords" type="button" class="secondary">キーワードを編集</button></div>
+    <hr>
+    <div class="section-heading"><span class="step">02</span><div><h2>投稿リンクを貼り付ける</h2><p class="muted">Xの投稿で「共有 → リンクをコピー」。ここに貼って候補へ登録。</p></div></div>
+    <form id="addPosts" novalidate><label for="postUrls">投稿リンク <span class="muted">複数OK・改行または空白で区切る</span></label><textarea id="postUrls" rows="5" maxlength="32000" placeholder="https://x.com/example_user/status/123456789" aria-describedby="urlHelp urlError" spellcheck="false" autocapitalize="off"></textarea><p id="urlHelp" class="muted">x.com / twitter.com の投稿者名付き投稿リンクに対応。投稿本文は取得しません。</p><label for="postGenre">登録するジャンル<select id="postGenre"></select></label><p id="urlError" class="error" role="alert" hidden></p><p><button type="submit" id="addPostsButton">候補に登録</button></p></form>
+    <div id="pasteResults" aria-live="polite"></div>
+  </section>
+  <section id="people" class="page card" hidden aria-labelledby="peopleTitle"><div class="section-heading"><div><h2 id="peopleTitle">交流候補</h2><p class="muted">同じ人は1人として登録。投稿リンクはジャンルごとに残ります。</p></div><span id="peopleCount" class="count-pill"></span></div><div class="fields"><label for="filterGenre">表示ジャンル<select id="filterGenre"></select></label><label for="filterStatus">表示状態<select id="filterStatus"></select></label></div><div id="personList"></div></section>
+  <section id="genres" class="page card" hidden aria-labelledby="genresTitle"><h2 id="genresTitle">ジャンル別候補人数</h2><p class="muted">1人を複数ジャンルに登録できます。目標合計はジャンルごとの合計です。</p><div id="genreList"></div><hr><h3 id="genreFormTitle">ジャンル追加</h3><form id="genreForm" novalidate><input id="genreId" type="hidden"><div class="fields"><label for="gname">ジャンル名<input id="gname" maxlength="32" required></label><label for="gtarget">目標人数<input id="gtarget" type="number" min="1" max="100000" value="20" required></label></div><label for="gwords">検索キーワード（カンマまたは改行区切り）<textarea id="gwords" rows="3" maxlength="4000"></textarea></label><p id="genreError" class="error" role="alert" hidden></p><div class="row"><button id="saveGenre" type="submit">ジャンルを追加</button><button id="cancelGenre" type="button" class="secondary" hidden>編集をやめる</button></div></form></section>
+  <section id="patrol" class="page card" hidden aria-labelledby="patrolTitle"><h2 id="patrolTitle">朝夜巡回</h2><p class="muted">投稿やプロフィールを開き、Xで確認したら記録します。</p><div class="row"><button id="morning" type="button">☀ 朝の巡回</button><button id="night" type="button" class="secondary">☾ 夜の巡回</button></div><p id="session" class="session" role="status"></p><div id="patrolList"></div></section>
+  <section id="backup" class="page card" hidden aria-labelledby="backupTitle"><h2 id="backupTitle">バックアップと復元</h2><p>記録はこのブラウザ内に保存されます。ブラウザデータ削除や端末変更の前に、バックアップを保存してください。</p><button id="export" type="button">JSONバックアップを保存</button><label for="import">JSONバックアップを選択（V0.2 / V0.3 / V0.4・2MBまで）<input type="file" id="import" accept=".json,application/json"></label><p id="restoreError" class="error" role="alert" hidden></p><div id="restorePreview" class="restore-preview" hidden><h3>復元内容</h3><p id="restoreSummary"></p><p>復元するとV0.4の現在のデータを置き換えます。先にバックアップを保存してください。</p><div class="row"><button id="confirmRestore" type="button">この内容で復元する</button><button id="cancelRestore" type="button" class="secondary">やめる</button></div></div><p class="muted">旧版と同じURLのブラウザでは、初回にV0.3（なければV0.2）を読み込みます。旧版の保存データには書き込みません。別のブラウザ・端末ではJSONを使って移せます。</p><p class="muted">バックアップには候補のユーザー名・投稿リンク・メモが入ります。ファイルの共有先にご注意ください。</p></section>
+  <footer>V0.4 試験版 · X API・有料サービス不使用<br>投稿の自動取得・自動スクレイピング・自動いいねは行いません。<br>スマートフォン実機での動作は未検証です。</footer>
+</main>
+</body>
+</html>
