@@ -1,0 +1,12 @@
+SNS-WATCH-007 / V07RC1
+Generated 2026-10-16T13:07:00.703Z
+Initial GitHub main a52cf832f02f4d71a94e909b6c7af016f7eee608; v05-test exists, v06-test absent.
+Git connector SASAKIjoe push permission true; v07-test branch creation succeeded.
+git clone failed: getaddrinfo thread failed to start. Connector read-only baseline fallback succeeded.
+Initial sandbox Chrome loopback ERR_NETWORK_ACCESS_DENIED; authorized automatic review approved local browser execution.
+31/31 node tests PASS; full output in evidence/unit-tests.log.
+Local Chrome: PASS_DESKTOP_ONLY; storage: PASS_REAL_CHROME_STORAGE; public Chrome: undefined
+GitHub readback: undefined; Pages SHA256: undefined
+Final verdict: HOLD_PUBLIC_VERIFY_AND_ANDROID; Android physical NOT_TESTED.
+No HTTP403 observed during work to this report. Every HTTP403 would STOP publication and verification.
+Fixes: strict URL encoding, video ID dedupe, readonly legacy absence probe, merge inbox ownership conflicts, source snapshots, explicit corrupt-state recovery, drained SW body precache, exact worker-controller ready status.
