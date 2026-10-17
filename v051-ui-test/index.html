@@ -42,12 +42,14 @@
         <label for="filterGenre">ジャンル<select id="filterGenre"></select></label>
         <label for="patrolFreshness">確認<select id="patrolFreshness"><option value="">すべて</option><option value="unchecked">− 未確認</option><option value="recent">✔ 確認済み</option></select></label>
         <label for="filterStatus">交流状態<select id="filterStatus"></select></label>
-        <label for="sortPeople">並び順<select id="sortPeople"><option value="priority">未確認から</option><option value="oldest">確認が古い順</option><option value="newest">登録が新しい順</option></select></label>
+        <label for="sortPeople">並び順<select id="sortPeople"><option value="manual">手動</option><option value="priority">未確認から</option><option value="oldest">確認が古い順</option><option value="newest">登録が新しい順</option></select></label>
         <div class="row candidate-tools"><button id="expandPeople" type="button" class="secondary">全展開</button><button id="collapsePeople" type="button" class="secondary">全閉</button><button id="returnToPerson" type="button" class="secondary" hidden>前の行へ</button></div>
         <details class="bulk-selection"><summary>巡回対象</summary><div class="row"><button id="selectPeople" type="button" class="secondary" data-write>表示中を全選択</button><button id="clearPeople" type="button" class="secondary" data-write>解除</button></div></details>
       </div></details>
-      <details id="candidateHelp" class="toolbar-disclosure"><summary aria-label="表示の意味と使い方" title="表示の意味と使い方">?</summary><div class="help-body"><p>✔ 人間がXの投稿を確認済み。いいねの記録ではありません。取り消しは詳細から。</p><p>− 新着未判定。Xの新着は取得していません。未確認や時間の経過をNewとは表示しません。</p><p>更新は端末内の記録を再集計し、現在の並び順で整理します。</p><p>行をタップで詳細。Xから戻ると、開いた行や表示位置を復元します。</p><p>いいねはXでご自身で操作してください。</p></div></details>
+      <details id="candidateHelp" class="toolbar-disclosure"><summary aria-label="表示の意味と使い方" title="表示の意味と使い方">?</summary><div class="help-body"><p>✔ 人間がXの投稿を確認済み。いいねの記録ではありません。取り消しは詳細から。</p><p>− 新着未判定。Xの新着は取得していません。未確認や時間の経過をNewとは表示しません。</p><p>更新は端末内の記録を再集計し、現在の並び順で整理します。</p><p>行をタップで詳細。Xから戻ると、開いた行や表示位置を復元します。</p><p class="tablet-reorder-help">≡ をドラッグで並べ替え。</p><p>いいねはXでご自身で操作してください。</p></div></details>
     </div>
+    <p id="reorderInstructions" class="sr-only">タブレットでは左端のつまみをドラッグして並べ替えます。キーボードはつまみに移動し、Altと上下矢印で1行移動。Escapeでドラッグを取り消します。表示中の候補だけが移動します。</p>
+    <p id="reorderStatus" class="sr-only" role="status" aria-live="polite"></p>
     <div id="personList"></div>
   </section>
   <section id="genres" class="page card" hidden aria-labelledby="genresTitle"><h2 id="genresTitle">ジャンルと目標</h2><div id="genreList"></div><hr><h3 id="genreFormTitle">ジャンル追加</h3><form id="genreForm"><input id="genreId" type="hidden"><div class="fields"><label for="gname">名前<input id="gname" maxlength="32" required></label><label for="gtarget">目標人数<input id="gtarget" type="number" min="1" max="100000" value="20" required></label></div><label for="gwords">検索キーワード<textarea id="gwords" rows="2" maxlength="4000"></textarea></label><div class="row"><button id="saveGenre" type="submit" data-write>保存</button><button id="cancelGenre" type="button" class="secondary">やめる</button></div></form></section>

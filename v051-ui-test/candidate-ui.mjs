@@ -15,6 +15,7 @@ export function firstRegistration(person) {
   return times.length ? Math.min(...times) : 0;
 }
 export function sortCandidates(people, order = 'priority') {
+  if (order === 'manual') return [...people];
   return people.map((person, index) => ({ person, index })).sort((a, b) => {
     if (order === 'newest') return firstRegistration(b.person) - firstRegistration(a.person) || b.index - a.index;
     const as = patrolState(a.person), bs = patrolState(b.person);

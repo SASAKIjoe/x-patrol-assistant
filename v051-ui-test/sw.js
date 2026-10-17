@@ -3,12 +3,12 @@
 // Change this version whenever any runtime file changes before deployment.
 // The old root worker deletes x-patrol-*; this separate prefix survives it.
 const CACHE_PREFIX = 'xp051ui-shell-';
-const CACHE_NAME = `${CACHE_PREFIX}20261017-minimal-1`;
+const CACHE_NAME = `${CACHE_PREFIX}20261017-drag-1`;
 const APP_ROOT = new URL(self.registration.scope);
 const INDEX_URL = new URL('index.html', APP_ROOT).href;
 const REQUIRED_FILES = Object.freeze([
   'index.html', 'style.css', 'app.mjs', 'core.mjs', 'storage.mjs',
-  'migration.mjs', 'candidate-ui.mjs',
+  'migration.mjs', 'candidate-ui.mjs', 'reorder-ui.mjs',
   'manifest.webmanifest', 'sw.js', 'icon.svg', 'icon192.png',
   'icon512.png', 'maskable512.png'
 ]);

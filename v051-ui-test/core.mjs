@@ -394,6 +394,19 @@ export function undoChecked(data, id) {
   person.checked = ''; person.checkedAt = '';
   return validateData(next);
 }
+// Reorder only the visible subset's occupied slots in the latest saved record.
+// Hidden users, concurrent additions and all person fields remain untouched.
+export function reorderPeople(data, visibleIds, orderedIds) {
+  const next = validateData(data);
+  if (!Array.isArray(visibleIds) || !Array.isArray(orderedIds) || visibleIds.length > LIMITS.people || visibleIds.length !== orderedIds.length) fail('並べ替える候補を確認してください。');
+  const before = new Set(visibleIds), after = new Set(orderedIds);
+  if (before.size !== visibleIds.length || after.size !== orderedIds.length || visibleIds.some(id => typeof id !== 'string' || !after.has(id))) fail('候補が重複しているか、並べ替える範囲が変わりました。');
+  const people = new Map(next.people.map(person => [person.id, person]));
+  if (visibleIds.some(id => !people.has(id))) fail('候補が変更されています。一覧を更新して再度お試しください。');
+  let cursor = 0;
+  next.people = next.people.map(person => before.has(person.id) ? people.get(orderedIds[cursor++]) : person);
+  return next;
+}
 export function counts(data) {
   return data.genres.map(g => ({ ...g, count: data.people.filter(p => p.genres.includes(g.id)).length, selectedCount: data.people.filter(p => p.selected && p.genres.includes(g.id)).length }));
 }

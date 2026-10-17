@@ -1,6 +1,6 @@
-SNS-WATCH-PWA-051
-Baseline read-only audit: 7fe9296483059788dc2b756439f0b6e1145ffb7b
+SNS-WATCH-PWA-051-DRAG
+Baseline read-only audit: 81664cb38aa1ebccec03f801b8e8c6cbd4905bcb
 Current unit, storage, worker, dependency, regression and 150-row browser suites: PASS
-{"unit":59,"regression":18,"compact":21}
+{"unit":67,"regression":18,"compact":21,"drag":23,"upgrade":5}
 Physical Android: NOT_TESTED
 Detailed current logs: full delivery package tests/Evidence/ and Logs/.

@@ -1,6 +1,7 @@
-import {STATES,LIMITS,defaults,collectPosts,promoteInbox,removeInbox,setInboxSelected,setSelected,startSession,markChecked,undoChecked,updatePerson,deletePerson,removePost,upsertGenre,deleteGenre,counts,searchUrl,decodeBackup,encodeBackup} from './core.mjs';
+import {STATES,LIMITS,defaults,collectPosts,promoteInbox,removeInbox,setInboxSelected,setSelected,startSession,markChecked,undoChecked,updatePerson,deletePerson,removePost,upsertGenre,deleteGenre,counts,searchUrl,decodeBackup,encodeBackup,reorderPeople} from './core.mjs';
 import {createStore} from './storage.mjs';
 import {patrolState,sortCandidates,shortGenres} from './candidate-ui.mjs';
+import {setupReorder} from './reorder-ui.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textContent=text;if(cls)n.className=cls;return n;};
 const on=(id,type,fn)=>$(id).addEventListener(type,e=>{try{Promise.resolve(fn(e)).catch(error=>notice(error.message||'処理できませんでした。',true));}catch(error){notice(error.message||'処理できませんでした。',true);}});
@@ -12,10 +13,12 @@ let data=null,revision=-1,store,pendingRestore=null,restoreToken=0,queue=Promise
 const handleDrafts=new Map();
 const personDrafts=new Map(),UI_KEY='xpatrol-v051-ui-test:view:'+location.pathname,PAGES=['inbox','people','genres','patrol','backup'];
 let ui={page:'people',genre:'',status:'',freshness:'',sort:'priority',expanded:[],patrolExpanded:[],filters:false,help:false,positions:{},lastOpened:{}},activePage='people',uiReady=false,renderingPeople=false;
+let userViewIntent=0,candidateControlsIntent=0;
 let savedUi='';try{savedUi=sessionStorage.getItem(UI_KEY)||'';}catch{}if(!savedUi)try{savedUi=localStorage.getItem(UI_KEY)||'';}catch{}
 try{const saved=JSON.parse(savedUi||'null');if(saved&&typeof saved==='object'){for(const key of ['genre','status','freshness','sort'])if(typeof saved[key]==='string')ui[key]=saved[key];if(PAGES.includes(saved.page))ui.page=saved.page;for(const key of ['filters','help'])if(typeof saved[key]==='boolean')ui[key]=saved[key];for(const key of ['expanded','patrolExpanded'])if(Array.isArray(saved[key]))ui[key]=saved[key].filter(id=>typeof id==='string'&&/^[A-Za-z0-9_-]{1,80}$/.test(id)).slice(0,5000);for(const name of PAGES){const p=saved.positions?.[name];if(p&&Number.isFinite(p.y)&&p.y>=0)ui.positions[name]={y:p.y,id:typeof p.id==='string'?p.id:'',offset:Number.isFinite(p.offset)?p.offset:0};if(typeof saved.lastOpened?.[name]==='string')ui.lastOpened[name]=saved.lastOpened[name];}}}catch{}
-if(!['priority','oldest','newest'].includes(ui.sort))ui.sort='priority';
+if(!['priority','oldest','newest','manual'].includes(ui.sort))ui.sort='priority';
 const expandedPeople=new Set(ui.expanded),expandedPatrol=new Set(ui.patrolExpanded),restoreTimers=new Set();let restoreSequence=0,programmaticUntil=0,scrollSaveTimer,refreshAt=Date.now();
+const reorder=setupReorder({root:$('personList'),onCommit:async(originalIds,orderedIds,sourceId)=>{const position=capturePosition(sourceId),intent=userViewIntent,controlsIntent=candidateControlsIntent,pageId=activePage;cancelPositionRestore();await save(d=>reorderPeople(d,originalIds,orderedIds));if(controlsIntent===candidateControlsIntent){$('sortPeople').value='manual';ui.sort='manual';persistUi();}const preserveSource=pageId===activePage&&intent===userViewIntent&&document.visibilityState!=='hidden';renderPeople(preserveSource?position:undefined);$('reorderStatus').textContent='並び順を保存しました。';return preserveSource;},onDragChange:active=>{if(active)cancelPositionRestore();},onError:error=>{renderPeople();notice(error.message||'並び順を保存できませんでした。',true);return false;}});
 try{history.scrollRestoration='manual';}catch{}
 function persistUi(){ui.page=activePage;ui.expanded=[...expandedPeople];ui.patrolExpanded=[...expandedPatrol];const value=JSON.stringify(ui);try{sessionStorage.setItem(UI_KEY,value);}catch{}try{localStorage.setItem(UI_KEY,value);}catch{}}
 function rowFor(id,pageId=activePage){return [...($(pageId)?.querySelectorAll('[data-person-id]')||[])].find(row=>row.dataset.personId===id);}
@@ -25,13 +28,13 @@ function cancelPositionRestore(){restoreSequence++;for(const timer of restoreTim
 function restorePosition(position){if(!position||!uiReady)return;cancelPositionRestore();const sequence=restoreSequence,pageId=activePage;
   for(const delay of [0,100,350]){const timer=setTimeout(()=>{restoreTimers.delete(timer);if(sequence!==restoreSequence||pageId!==activePage||document.visibilityState==='hidden')return;const row=position.id&&rowFor(position.id,pageId),target=row?scrollY+row.getBoundingClientRect().top-position.offset:position.y;programmaticUntil=performance.now()+100;window.scrollTo({top:Math.max(0,target),behavior:'instant'});},delay);restoreTimers.add(timer);}}
 function updateReturnButton(){const button=$('returnToPerson');button.hidden=!ui.lastOpened.people;}
-for(const type of ['wheel','touchstart','pointerdown'])window.addEventListener(type,cancelPositionRestore,{passive:true});
-window.addEventListener('keydown',e=>{if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key))cancelPositionRestore();});
+for(const type of ['wheel','touchstart','pointerdown'])window.addEventListener(type,event=>{if(event.isTrusted)userViewIntent++;cancelPositionRestore();},{passive:true,capture:true});
+window.addEventListener('keydown',e=>{if(e.isTrusted)userViewIntent++;if(['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(e.key))cancelPositionRestore();},{capture:true});
 window.addEventListener('scroll',()=>{if(performance.now()>programmaticUntil)cancelPositionRestore();clearTimeout(scrollSaveTimer);scrollSaveTimer=setTimeout(()=>snapshotView(),120);},{passive:true});
 window.addEventListener('pagehide',()=>{clearTimeout(scrollSaveTimer);cancelPositionRestore();snapshotView();});
 let channel;try{channel=new BroadcastChannel('xp051ui-changed');channel.onmessage=()=>refresh();}catch{}
 function notice(text,error=false){$('notice').textContent=text;$('notice').classList.toggle('is-error',error);$('notice').hidden=false;}
-function page(id,{initial=false}={}){if(!PAGES.includes(id))return;if(!initial&&id===activePage)return;if(!initial)snapshotView();cancelPositionRestore();activePage=id;document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==id);document.querySelectorAll('[data-page]').forEach(b=>{if(b.dataset.page===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});ui.page=id;persistUi();if(uiReady)restorePosition(ui.positions[id]||{y:0,id:'',offset:0});}
+function page(id,{initial=false}={}){if(!PAGES.includes(id))return;reorder.cancel();if(!initial&&id===activePage)return;if(!initial)snapshotView();cancelPositionRestore();activePage=id;document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==id);document.querySelectorAll('[data-page]').forEach(b=>{if(b.dataset.page===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});ui.page=id;persistUi();if(uiReady)restorePosition(ui.positions[id]||{y:0,id:'',offset:0});}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 function save(fn,message=''){
   const work=queue.catch(()=>{}).then(async()=>{
@@ -62,6 +65,7 @@ function renderInbox(){
   }
 }
 function renderPeople(positionOverride){
+  reorder.cancel();
   const position=positionOverride||(uiReady&&activePage==='people'?capturePosition():null),root=$('personList'),focused=root.contains(document.activeElement)?document.activeElement:null;
   const focusId=focused?.closest('[data-person-id]')?.dataset.personId,focusName=focused?.getAttribute('aria-label'),selection=focused?.tagName==='TEXTAREA'?[focused.selectionStart,focused.selectionEnd]:null;
   renderingPeople=true;root.replaceChildren();const people=visiblePeople();$('peopleCount').textContent=people.length+' / '+data.people.length+'人';
@@ -85,7 +89,7 @@ function renderPeople(positionOverride){
     note.addEventListener('input',rememberDraft);body.append(label('メモ',note));
     for(const g of data.genres){const box=el('input');box.type='checkbox';box.value=g.id;box.checked=(draft?.genres??p.genres).includes(g.id);box.addEventListener('change',rememberDraft);boxes.push(box);picks.append(label(g.name,box));}
     body.append(picks,btn('編集内容を保存',async()=>{await save(d=>updatePerson(d,p.id,{note:note.value,genres:boxes.filter(b=>b.checked).map(b=>b.value)}),'候補を保存しました。');personDrafts.delete(p.id);renderPeople();}));
-    const row=el('div','','row candidate-actions');row.append(btn('候補を削除',async()=>{if(confirm('@'+p.handle+' と投稿リンクを削除しますか？確認履歴は残ります。')){await save(d=>deletePerson(d,p.id),'候補を削除しました。');personDrafts.delete(p.id);expandedPeople.delete(p.id);persistUi();}},'danger'));body.append(row);accordion.append(body);item.append(accordion);root.append(item);
+    const row=el('div','','row candidate-actions');row.append(btn('候補を削除',async()=>{if(confirm('@'+p.handle+' と投稿リンクを削除しますか？確認履歴は残ります。')){await save(d=>deletePerson(d,p.id),'候補を削除しました。');personDrafts.delete(p.id);expandedPeople.delete(p.id);persistUi();}},'danger'));body.append(row);accordion.append(body);const handle=el('button','≡','reorder-handle');handle.type='button';handle.dataset.action='reorder';handle.setAttribute('aria-label','@'+p.handle+'を並べ替え');handle.setAttribute('aria-describedby','reorderInstructions');handle.setAttribute('aria-keyshortcuts','Alt+ArrowUp Alt+ArrowDown');handle.title='ドラッグで並べ替え';item.append(handle,accordion);root.append(item);
   }
   renderingPeople=false;updateReturnButton();if(focusId&&focusName){const input=[...(rowFor(focusId,'people')?.querySelectorAll('[aria-label]')||[])].find(n=>n.getAttribute('aria-label')===focusName);if(input){input.focus({preventScroll:true});if(selection)input.setSelectionRange(...selection);}}
   if(position&&activePage==='people')restorePosition(position);
@@ -106,7 +110,7 @@ on('deleteInbox','click',async()=>{const ids=pickedInbox();if(ids.length&&confir
 function readCandidateControls(){ui.genre=$('filterGenre').value;ui.status=$('filterStatus').value;ui.freshness=$('patrolFreshness').value;ui.sort=$('sortPeople').value;persistUi();}
 function activateUi(initialPage=ui.page){if(uiReady||!data)return;for(const [id,value] of [['filterGenre',ui.genre],['filterStatus',ui.status],['patrolFreshness',ui.freshness],['sortPeople',ui.sort]]){if([...$(id).options].some(option=>option.value===value))$(id).value=value;}$('candidateFilters').open=ui.filters;$('candidateHelp').open=ui.help;page(initialPage,{initial:true});uiReady=true;readCandidateControls();renderPeople();restorePosition(ui.positions[activePage]);}
 for(const [id,key] of [['candidateFilters','filters'],['candidateHelp','help']])on(id,'toggle',()=>{if(!uiReady)return;ui[key]=$(id).open;snapshotView();});
-for(const id of ['filterGenre','filterStatus','patrolFreshness','sortPeople'])on(id,'change',()=>{readCandidateControls();renderPeople();snapshotView();});
+for(const id of ['filterGenre','filterStatus','patrolFreshness','sortPeople'])on(id,'change',()=>{candidateControlsIntent++;userViewIntent++;readCandidateControls();renderPeople();snapshotView();});
 $('filterStatus').add(new Option('すべて',''));for(const s of STATES)$('filterStatus').add(new Option(s,s));
 on('refreshPeople','click',async()=>{await refresh();refreshAt=Date.now();renderPeople();snapshotView();notice('並び順を更新 · 新着未判定');});
 for(const [id,open] of [['expandPeople',true],['collapsePeople',false]])on(id,'click',()=>{const position=capturePosition();if(open)for(const p of visiblePeople())expandedPeople.add(p.id);else expandedPeople.clear();persistUi();renderPeople(position);});
