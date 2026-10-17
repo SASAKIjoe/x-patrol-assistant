@@ -1,12 +1,14 @@
-SNS-WATCH-007 / V07RC1
-Generated 2026-10-16T13:07:00.703Z
-Initial GitHub main a52cf832f02f4d71a94e909b6c7af016f7eee608; v05-test exists, v06-test absent.
-Git connector SASAKIjoe push permission true; v07-test branch creation succeeded.
-git clone failed: getaddrinfo thread failed to start. Connector read-only baseline fallback succeeded.
-Initial sandbox Chrome loopback ERR_NETWORK_ACCESS_DENIED; authorized automatic review approved local browser execution.
-31/31 node tests PASS; full output in evidence/unit-tests.log.
-Local Chrome: PASS_DESKTOP_ONLY; storage: PASS_REAL_CHROME_STORAGE; public Chrome: undefined
-GitHub readback: undefined; Pages SHA256: undefined
-Final verdict: HOLD_PUBLIC_VERIFY_AND_ANDROID; Android physical NOT_TESTED.
-No HTTP403 observed during work to this report. Every HTTP403 would STOP publication and verification.
-Fixes: strict URL encoding, video ID dedupe, readonly legacy absence probe, merge inbox ownership conflicts, source snapshots, explicit corrupt-state recovery, drained SW body precache, exact worker-controller ready status.
+SNS-WATCH-007 / V07RC1 / SNS_WATCH_BOX_V07_YOUTUBE_INTEGRATION_V01
+Generated 2026-10-17T10:30:51.255Z
+Publication: DEPLOYED_VERIFIED_DESKTOP; deployment record: DEPLOYED_VERIFIED_DESKTOP.
+User approval: APPROVED; prior main-publication approval block resolved.
+Approved baseline main commit: 58bfec8763557c3cf392a2f8751a4bb89b0cf6c8; tree: edd1debe74294aa149894c284b1f032cc2fdd7f6; files: 93; entries: 99.
+Allowed scope: only new v07-test/20 files; preserve all existing Git blobs and Pages settings.
+Node tests: PASS 31/31; raw log evidence/unit-tests.log.
+Local Chrome: PASS_DESKTOP_ONLY; storage: PASS_REAL_CHROME_STORAGE; public Chrome: PASS_DESKTOP_ONLY.
+Generation-time GitHub readback: PASS; Pages SHA256: PASS.
+Verdict HOLD_ANDROID_PHYSICAL; Android physical NOT_TESTED; officialPass false.
+Evidence.jsonは文書生成時点の初回公開ランタイム・PC検証のスナップショットです。文書とSHA256の確定後に行う最終20ファイルの完全一致は、納品ZIP内 evidence/github-readback-final.json と evidence/pages-readback-final.json に記録します。自己参照を避けるため最終読戻し後は製品文書を再生成しません。
+Every current HTTP403 stops publication and verification. No alternate identity or route.
+Historical availability only: 2026-10-16T13:10:14.724Z HTTP404; this is not the current publication state.
+Deployment/approval history is retained in Evidence.json deployment.history; explicit approval resolves the previous approval block.

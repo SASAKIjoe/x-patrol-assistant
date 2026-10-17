@@ -1,15 +1,19 @@
 {
   "release": "SNS-WATCH-007-V07RC1",
+  "workDisplayName": "SNS-WATCH-007｜YouTube統合開発",
+  "workCode": "SNS-WATCH-007",
   "taskId": "SNS_WATCH_BOX_V07_YOUTUBE_INTEGRATION_V01",
-  "generatedAt": "2026-10-16T13:07:00.703Z",
-  "finalVerdict": "HOLD_PUBLIC_VERIFY_AND_ANDROID",
-  "candidateStatus": "LOCAL_CANDIDATE",
+  "generatedAt": "2026-10-17T10:30:51.255Z",
+  "finalVerdict": "HOLD_ANDROID_PHYSICAL",
+  "candidateStatus": "DEPLOYED_VERIFIED_DESKTOP",
   "physicalAndroid": "NOT_TESTED",
   "officialPass": false,
   "unit": {
     "tests": 31,
     "passed": 31,
-    "source": "evidence/unit-tests.log"
+    "failed": 0,
+    "source": "evidence/unit-tests.log",
+    "status": "PASS"
   },
   "runtime": [
     {
@@ -74,9 +78,13 @@
     }
   ],
   "baseline": {
-    "commit": "a52cf832f02f4d71a94e909b6c7af016f7eee608",
-    "tree": "8b8c24d0a21e0754136727a6181d511feb93ded3",
-    "scope": "Only new v07-test/ files; protected existing files compared by Git blob; V06 storage never accessed."
+    "commit": "58bfec8763557c3cf392a2f8751a4bb89b0cf6c8",
+    "tree": "edd1debe74294aa149894c284b1f032cc2fdd7f6",
+    "existingFiles": 93,
+    "existingEntries": 99,
+    "evidence": "approved-baseline-tree.json",
+    "source": "evidence/deploy.json",
+    "scope": "Only approved new v07-test/20 files are added to main. Compare every pre-existing Git blob to the approved baseline. V0.6 storage is never accessed."
   },
   "localBrowser": {
     "generatedAt": "2026-10-16T13:06:39.434Z",
@@ -556,7 +564,7 @@
     ]
   },
   "storageBrowser": {
-    "generatedAt": "2026-10-16T13:06:09.644Z",
+    "generatedAt": "2026-10-16T13:07:20.530Z",
     "status": "PASS_REAL_CHROME_STORAGE",
     "browser": "Desktop Chrome 155.0.8059.82",
     "syntheticDataOnly": true,
@@ -566,62 +574,62 @@
       {
         "name": "V05 IndexedDB migration reads a full synthetic record without changing any legacy store bytes",
         "status": "PASS",
-        "milliseconds": 541
+        "milliseconds": 392
       },
       {
         "name": "all four legacy localStorage formats copy once and remain byte-for-byte unchanged",
         "status": "PASS",
-        "milliseconds": 319
+        "milliseconds": 370
       },
       {
         "name": "databases-unavailable legacy probe aborts creation and still permits empty or localStorage initialization",
         "status": "PASS",
-        "milliseconds": 257
+        "milliseconds": 374
       },
       {
         "name": "corrupt legacy IDB fails closed despite valid lower-priority fallback and keeps all raw records",
         "status": "PASS",
-        "milliseconds": 270
+        "milliseconds": 373
       },
       {
         "name": "corrupt highest-priority localStorage remains untouched and does not fall through",
         "status": "PASS",
-        "milliseconds": 294
+        "milliseconds": 313
       },
       {
         "name": "corrupt active V0.7 does not reset and valid existing V0.7 ignores unrelated corrupt legacy",
         "status": "PASS",
-        "milliseconds": 317
+        "milliseconds": 304
       },
       {
         "name": "validation, thrown mutator, asynchronous mutator and quota failure roll back data and revision",
         "status": "PASS",
-        "milliseconds": 394
+        "milliseconds": 328
       },
       {
         "name": "simultaneous writers serialize twenty-four updates with no loss or revision gaps",
         "status": "PASS",
-        "milliseconds": 444
+        "milliseconds": 358
       },
       {
         "name": "explicit recovery of corrupt active state preserves forensic raw and leaves V05 unchanged",
         "status": "PASS",
-        "milliseconds": 495
+        "milliseconds": 345
       },
       {
         "name": "explicit recovery bypasses corrupt legacy only after preserving raw and leaves old database unchanged",
         "status": "PASS",
-        "milliseconds": 503
+        "milliseconds": 342
       },
       {
         "name": "invalid explicit recovery input leaves corrupt raw record unchanged",
         "status": "PASS",
-        "milliseconds": 485
+        "milliseconds": 304
       },
       {
         "name": "recovery UI retains corrupt raw, restores imported JSON and enables subsequent collection",
         "status": "PASS",
-        "milliseconds": 1967
+        "milliseconds": 1560
       },
       {
         "name": "no uncaught errors in storage verification contexts",
@@ -631,10 +639,1584 @@
     ],
     "errors": []
   },
-  "publicBrowser": null,
-  "githubReadback": null,
-  "pagesReadback": null,
-  "deployment": null,
+  "publicBrowser": {
+    "generatedAt": "2026-10-17T10:29:33.426Z",
+    "target": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/",
+    "publicRun": true,
+    "status": "PASS_DESKTOP_ONLY",
+    "browser": "Headless desktop Chrome 155.0.8059.82",
+    "realAndroidDevice": "NOT_TESTED",
+    "AndroidInstallShareSheetWebAPK": "NOT_TESTED",
+    "forbidden": null,
+    "limitations": [
+      "Desktop Chrome at 390px verifies layout only; Android installation and OS share sheet require a real device.",
+      "Synthetic data is isolated in fresh browser contexts. No external SNS links are visited.",
+      "GET share parameters may reach static hosting before the scoped worker first controls the page."
+    ],
+    "results": [
+      {
+        "name": "launch and persistent V0.7 state",
+        "status": "PASS",
+        "milliseconds": 1306
+      },
+      {
+        "name": "mixed X and YouTube URLs canonicalize and deduplicate by source identity",
+        "status": "PASS",
+        "milliseconds": 486
+      },
+      {
+        "name": "selected bulk registration creates video watchlist and X candidate without guessing channel",
+        "status": "PASS",
+        "milliseconds": 236
+      },
+      {
+        "name": "manual YouTube channel candidate saves supplied details only",
+        "status": "PASS",
+        "milliseconds": 239
+      },
+      {
+        "name": "video metadata and status editor persist safe literal text",
+        "status": "PASS",
+        "milliseconds": 262
+      },
+      {
+        "name": "genre create, edit, target counts and delete preserve candidates",
+        "status": "PASS",
+        "milliseconds": 268
+      },
+      {
+        "name": "morning and evening confirmation produce durable history",
+        "status": "PASS",
+        "milliseconds": 364
+      },
+      {
+        "name": "backup download matches state and invalid backup leaves stored data unchanged",
+        "status": "PASS",
+        "milliseconds": 313
+      },
+      {
+        "name": "confirmed JSON restore preserves original records, new work and pre-restore snapshot",
+        "status": "PASS",
+        "milliseconds": 288
+      },
+      {
+        "name": "shared title text and URL are received continuously without retaining caption or query",
+        "status": "PASS",
+        "milliseconds": 322
+      },
+      {
+        "name": "complete V0.7 scoped shell enables offline launch and share saving",
+        "status": "PASS",
+        "milliseconds": 155
+      },
+      {
+        "name": "all tabs fit 390px viewport without horizontal scrolling",
+        "status": "PASS",
+        "milliseconds": 343
+      },
+      {
+        "name": "concurrent cold share tabs preserve both writes",
+        "status": "PASS",
+        "milliseconds": 1255
+      },
+      {
+        "name": "legacy root and V0.7 workers coexist without deleting unrelated caches",
+        "status": "PASS",
+        "milliseconds": 2474
+      },
+      {
+        "name": "no uncaught browser errors throughout tested flows",
+        "status": "PASS",
+        "milliseconds": 0
+      }
+    ],
+    "errors": [],
+    "consoleErrors": [],
+    "responseFailures": []
+  },
+  "githubReadback": {
+    "pass": true,
+    "phase": "initial",
+    "checkedAt": "2026-10-17T10:30:37.366Z",
+    "repository": "SASAKIjoe/x-patrol-assistant",
+    "account": "SASAKIjoe",
+    "ref": "b541cf14a383ac45b276eb6e24e0078bb6583b74",
+    "tree": "7cbea9ed3ad9a4f9810e5adc49c59e3da546228c",
+    "manifest": "evidence/release-files-initial.json",
+    "method": "GitHub connector fetch_file at exact commit using base64; decoded byte SHA256 and Git blob SHA1 compared independently",
+    "fileCount": 20,
+    "files": [
+      {
+        "path": "v07-test/Android.md",
+        "bytes": 11688,
+        "sha256": "87fb33d303429098242e2da74c38cf203997010164b97e101802dfd27635ac22",
+        "gitBlob": "832287d4405764f29a1459a18833daa9c75bd162",
+        "githubBlob": "832287d4405764f29a1459a18833daa9c75bd162",
+        "expectedBytes": 11688,
+        "expectedSha256": "87fb33d303429098242e2da74c38cf203997010164b97e101802dfd27635ac22",
+        "expectedGitBlob": "832287d4405764f29a1459a18833daa9c75bd162",
+        "pass": true
+      },
+      {
+        "path": "v07-test/Evidence.json",
+        "bytes": 18200,
+        "sha256": "833794a9aff824c92aad2b947003e8bbc1857f43687b7951779d0f9f38802d1f",
+        "gitBlob": "e6d729c0e7f162706d69e5b7844be48a78243fff",
+        "githubBlob": "e6d729c0e7f162706d69e5b7844be48a78243fff",
+        "expectedBytes": 18200,
+        "expectedSha256": "833794a9aff824c92aad2b947003e8bbc1857f43687b7951779d0f9f38802d1f",
+        "expectedGitBlob": "e6d729c0e7f162706d69e5b7844be48a78243fff",
+        "pass": true
+      },
+      {
+        "path": "v07-test/HANDOFF.md",
+        "bytes": 1549,
+        "sha256": "0e1bcd7b0bf834fd88ca51aea55e25bc834cb3a33d6f1540f6fa450bff7903a4",
+        "gitBlob": "304b310253785459a22093e68c683845f3b0422e",
+        "githubBlob": "304b310253785459a22093e68c683845f3b0422e",
+        "expectedBytes": 1549,
+        "expectedSha256": "0e1bcd7b0bf834fd88ca51aea55e25bc834cb3a33d6f1540f6fa450bff7903a4",
+        "expectedGitBlob": "304b310253785459a22093e68c683845f3b0422e",
+        "pass": true
+      },
+      {
+        "path": "v07-test/Logs.txt",
+        "bytes": 1071,
+        "sha256": "8d3eef755ec909d6bec55c52c1c1fdb04bdc2879aef7476918263538475805ad",
+        "gitBlob": "ffe2f7cea099db86ab76774208503d338637746b",
+        "githubBlob": "ffe2f7cea099db86ab76774208503d338637746b",
+        "expectedBytes": 1071,
+        "expectedSha256": "8d3eef755ec909d6bec55c52c1c1fdb04bdc2879aef7476918263538475805ad",
+        "expectedGitBlob": "ffe2f7cea099db86ab76774208503d338637746b",
+        "pass": true
+      },
+      {
+        "path": "v07-test/NEXT_INPUT.md",
+        "bytes": 743,
+        "sha256": "4070afbab68d4b30c332bb703b068110823d0bb8c4211589b3ecccb2fdfec7dd",
+        "gitBlob": "83f4b52ee7e1dc32cb506a35d189b51fe47612ac",
+        "githubBlob": "83f4b52ee7e1dc32cb506a35d189b51fe47612ac",
+        "expectedBytes": 743,
+        "expectedSha256": "4070afbab68d4b30c332bb703b068110823d0bb8c4211589b3ecccb2fdfec7dd",
+        "expectedGitBlob": "83f4b52ee7e1dc32cb506a35d189b51fe47612ac",
+        "pass": true
+      },
+      {
+        "path": "v07-test/README.md",
+        "bytes": 6835,
+        "sha256": "c84f19c44fed98f802bc3792d1ae54df370ad7d8cfa375fb1a4f34ece5d28417",
+        "gitBlob": "9392b9d267bfcaea1a70457f90d367da88c3d32b",
+        "githubBlob": "9392b9d267bfcaea1a70457f90d367da88c3d32b",
+        "expectedBytes": 6835,
+        "expectedSha256": "c84f19c44fed98f802bc3792d1ae54df370ad7d8cfa375fb1a4f34ece5d28417",
+        "expectedGitBlob": "9392b9d267bfcaea1a70457f90d367da88c3d32b",
+        "pass": true
+      },
+      {
+        "path": "v07-test/RESULT.md",
+        "bytes": 881,
+        "sha256": "a700814cc41b517e0cf89783cfec4f912f2fa742a149ce8022959630e060cc81",
+        "gitBlob": "18155069cf6686a025843bfe10615bdd7c808d17",
+        "githubBlob": "18155069cf6686a025843bfe10615bdd7c808d17",
+        "expectedBytes": 881,
+        "expectedSha256": "a700814cc41b517e0cf89783cfec4f912f2fa742a149ce8022959630e060cc81",
+        "expectedGitBlob": "18155069cf6686a025843bfe10615bdd7c808d17",
+        "pass": true
+      },
+      {
+        "path": "v07-test/SHA256.txt",
+        "bytes": 1474,
+        "sha256": "20f861475ebb2f705ec161c637becb64cac374e1c059387a597346267d5bd6e0",
+        "gitBlob": "788d635e1f4e5becb8972b1a763ded4b18c8ac3e",
+        "githubBlob": "788d635e1f4e5becb8972b1a763ded4b18c8ac3e",
+        "expectedBytes": 1474,
+        "expectedSha256": "20f861475ebb2f705ec161c637becb64cac374e1c059387a597346267d5bd6e0",
+        "expectedGitBlob": "788d635e1f4e5becb8972b1a763ded4b18c8ac3e",
+        "pass": true
+      },
+      {
+        "path": "v07-test/app.mjs",
+        "bytes": 20544,
+        "sha256": "ca4a15d17d65b9f00400f5dec25fdf7b246e146abb5e6b4cb84907bb04b6737f",
+        "gitBlob": "79adcd9211db432f00da07a378d908430a41a34b",
+        "githubBlob": "79adcd9211db432f00da07a378d908430a41a34b",
+        "expectedBytes": 20544,
+        "expectedSha256": "ca4a15d17d65b9f00400f5dec25fdf7b246e146abb5e6b4cb84907bb04b6737f",
+        "expectedGitBlob": "79adcd9211db432f00da07a378d908430a41a34b",
+        "pass": true
+      },
+      {
+        "path": "v07-test/core.mjs",
+        "bytes": 29806,
+        "sha256": "c02bc8a398ad314e5a1f16ca6f55f35acb10cc494e38e3822e7e1b56b2ca4d46",
+        "gitBlob": "bab3cc40f20ddb4f77cad18b4d303f2f8108056e",
+        "githubBlob": "bab3cc40f20ddb4f77cad18b4d303f2f8108056e",
+        "expectedBytes": 29806,
+        "expectedSha256": "c02bc8a398ad314e5a1f16ca6f55f35acb10cc494e38e3822e7e1b56b2ca4d46",
+        "expectedGitBlob": "bab3cc40f20ddb4f77cad18b4d303f2f8108056e",
+        "pass": true
+      },
+      {
+        "path": "v07-test/icon.svg",
+        "bytes": 501,
+        "sha256": "4c1f188c4646dbc15cb7f82a04d19beba45a17d52cb73d7cc3122ac2ea6ed16a",
+        "gitBlob": "376de12f32b1ee2f42e6bcd1510bb55e6fc594cd",
+        "githubBlob": "376de12f32b1ee2f42e6bcd1510bb55e6fc594cd",
+        "expectedBytes": 501,
+        "expectedSha256": "4c1f188c4646dbc15cb7f82a04d19beba45a17d52cb73d7cc3122ac2ea6ed16a",
+        "expectedGitBlob": "376de12f32b1ee2f42e6bcd1510bb55e6fc594cd",
+        "pass": true
+      },
+      {
+        "path": "v07-test/icon192.png",
+        "bytes": 2432,
+        "sha256": "462b34a9b304e03420363694215ecd79898213371da3f2b653e869cd99a9afe9",
+        "gitBlob": "a860a118e4d59f64a972622274198887f2d3ab99",
+        "githubBlob": "a860a118e4d59f64a972622274198887f2d3ab99",
+        "expectedBytes": 2432,
+        "expectedSha256": "462b34a9b304e03420363694215ecd79898213371da3f2b653e869cd99a9afe9",
+        "expectedGitBlob": "a860a118e4d59f64a972622274198887f2d3ab99",
+        "pass": true
+      },
+      {
+        "path": "v07-test/icon512.png",
+        "bytes": 7084,
+        "sha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "gitBlob": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4",
+        "githubBlob": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4",
+        "expectedBytes": 7084,
+        "expectedSha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "expectedGitBlob": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4",
+        "pass": true
+      },
+      {
+        "path": "v07-test/index.html",
+        "bytes": 8824,
+        "sha256": "bdb7ad0db3a9eb7c31795c2fcf341d622576efc95490be3382f9bc8e38f279e8",
+        "gitBlob": "ada8c24756e73c66b44e727c254439e22ef9425e",
+        "githubBlob": "ada8c24756e73c66b44e727c254439e22ef9425e",
+        "expectedBytes": 8824,
+        "expectedSha256": "bdb7ad0db3a9eb7c31795c2fcf341d622576efc95490be3382f9bc8e38f279e8",
+        "expectedGitBlob": "ada8c24756e73c66b44e727c254439e22ef9425e",
+        "pass": true
+      },
+      {
+        "path": "v07-test/legacy-v05.mjs",
+        "bytes": 25964,
+        "sha256": "801f95c908056d73fc412295b3cf209dae28a5070a55bd74391e0abb0859077e",
+        "gitBlob": "455d9ea4044feb8dd2ada039430d3a2aa92fe70c",
+        "githubBlob": "455d9ea4044feb8dd2ada039430d3a2aa92fe70c",
+        "expectedBytes": 25964,
+        "expectedSha256": "801f95c908056d73fc412295b3cf209dae28a5070a55bd74391e0abb0859077e",
+        "expectedGitBlob": "455d9ea4044feb8dd2ada039430d3a2aa92fe70c",
+        "pass": true
+      },
+      {
+        "path": "v07-test/manifest.webmanifest",
+        "bytes": 1094,
+        "sha256": "b8f89bc231cd927e504a45980fca17b3bbed81c306124743b11ecc0c2dd9cd6b",
+        "gitBlob": "159fdff064b13450f4e4633ee068a6abbd41af16",
+        "githubBlob": "159fdff064b13450f4e4633ee068a6abbd41af16",
+        "expectedBytes": 1094,
+        "expectedSha256": "b8f89bc231cd927e504a45980fca17b3bbed81c306124743b11ecc0c2dd9cd6b",
+        "expectedGitBlob": "159fdff064b13450f4e4633ee068a6abbd41af16",
+        "pass": true
+      },
+      {
+        "path": "v07-test/maskable512.png",
+        "bytes": 7084,
+        "sha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "gitBlob": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4",
+        "githubBlob": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4",
+        "expectedBytes": 7084,
+        "expectedSha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "expectedGitBlob": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4",
+        "pass": true
+      },
+      {
+        "path": "v07-test/storage.mjs",
+        "bytes": 10681,
+        "sha256": "ffb61f3cf2d3293110e944ceead92d44c8c969e65f8505168f5dfc7c0837504b",
+        "gitBlob": "6569a39be957a0b1c3f9f183c404bdc74dc18875",
+        "githubBlob": "6569a39be957a0b1c3f9f183c404bdc74dc18875",
+        "expectedBytes": 10681,
+        "expectedSha256": "ffb61f3cf2d3293110e944ceead92d44c8c969e65f8505168f5dfc7c0837504b",
+        "expectedGitBlob": "6569a39be957a0b1c3f9f183c404bdc74dc18875",
+        "pass": true
+      },
+      {
+        "path": "v07-test/style.css",
+        "bytes": 5985,
+        "sha256": "e07dbf94e115f560e16602aad909a5f3a9ef139787122d9a2a6066476e8e35c3",
+        "gitBlob": "cc77acfd918c360b82f13225d73540d9f11a31ff",
+        "githubBlob": "cc77acfd918c360b82f13225d73540d9f11a31ff",
+        "expectedBytes": 5985,
+        "expectedSha256": "e07dbf94e115f560e16602aad909a5f3a9ef139787122d9a2a6066476e8e35c3",
+        "expectedGitBlob": "cc77acfd918c360b82f13225d73540d9f11a31ff",
+        "pass": true
+      },
+      {
+        "path": "v07-test/sw.js",
+        "bytes": 3722,
+        "sha256": "4412977ab12be5f9398677838416b71d8dfd994511d4ffba1730cbde0a6689a8",
+        "gitBlob": "488f7fff34bb865a95f031771d1433b92bf895c5",
+        "githubBlob": "488f7fff34bb865a95f031771d1433b92bf895c5",
+        "expectedBytes": 3722,
+        "expectedSha256": "4412977ab12be5f9398677838416b71d8dfd994511d4ffba1730cbde0a6689a8",
+        "expectedGitBlob": "488f7fff34bb865a95f031771d1433b92bf895c5",
+        "pass": true
+      }
+    ],
+    "baseline": {
+      "tree": "edd1debe74294aa149894c284b1f032cc2fdd7f6",
+      "total": 99,
+      "preserved": 99,
+      "pass": true,
+      "entries": [
+        {
+          "path": "icon.svg",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "efc1f4f4140cae34304d70f9b88846018a13397a",
+          "actualBlob": "efc1f4f4140cae34304d70f9b88846018a13397a",
+          "pass": true
+        },
+        {
+          "path": "index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "a18832057d533b18d393daf9b411342a7dc702cf",
+          "actualBlob": "a18832057d533b18d393daf9b411342a7dc702cf",
+          "pass": true
+        },
+        {
+          "path": "manifest.webmanifest",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d813c5ef682d923d8ca6562632ee30bd98867d6b",
+          "actualBlob": "d813c5ef682d923d8ca6562632ee30bd98867d6b",
+          "pass": true
+        },
+        {
+          "path": "sw.js",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bfd16894e96821eb134b92a9c8ff2b80c7af910d",
+          "actualBlob": "bfd16894e96821eb134b92a9c8ff2b80c7af910d",
+          "pass": true
+        },
+        {
+          "path": "v03-test",
+          "type": "tree",
+          "mode": "040000",
+          "expectedBlob": "3712c84d718ba64df54541608234363d3af3c9c7",
+          "actualBlob": "3712c84d718ba64df54541608234363d3af3c9c7",
+          "pass": true
+        },
+        {
+          "path": "v03-test/index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "de5c182f8cf85013763fbf1c84d0c7fcb40ba283",
+          "actualBlob": "de5c182f8cf85013763fbf1c84d0c7fcb40ba283",
+          "pass": true
+        },
+        {
+          "path": "v04-test",
+          "type": "tree",
+          "mode": "040000",
+          "expectedBlob": "0562b4aab463c07fa7a1c93feecb90076a6c1d67",
+          "actualBlob": "0562b4aab463c07fa7a1c93feecb90076a6c1d67",
+          "pass": true
+        },
+        {
+          "path": "v04-test/app.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bdef7eaa7f3ced9a775ac42ade7c7d11e1c3b797",
+          "actualBlob": "bdef7eaa7f3ced9a775ac42ade7c7d11e1c3b797",
+          "pass": true
+        },
+        {
+          "path": "v04-test/core.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "9061580d11ed6a987c2e8db0a4dfa4247433ac98",
+          "actualBlob": "9061580d11ed6a987c2e8db0a4dfa4247433ac98",
+          "pass": true
+        },
+        {
+          "path": "v04-test/icon.svg",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "5ce5644a61f709c85d8b9d5e69ebbe15576d627f",
+          "actualBlob": "5ce5644a61f709c85d8b9d5e69ebbe15576d627f",
+          "pass": true
+        },
+        {
+          "path": "v04-test/index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "4aab379df5af15b48f0f81cf085c36ca4f4bfcdf",
+          "actualBlob": "4aab379df5af15b48f0f81cf085c36ca4f4bfcdf",
+          "pass": true
+        },
+        {
+          "path": "v04-test/style.css",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "82973e94ecff057869c3e5cceff21d9086071168",
+          "actualBlob": "82973e94ecff057869c3e5cceff21d9086071168",
+          "pass": true
+        },
+        {
+          "path": "v05-test",
+          "type": "tree",
+          "mode": "040000",
+          "expectedBlob": "73e8371b297e9c79d575fcc375f542ea89b3bb36",
+          "actualBlob": "73e8371b297e9c79d575fcc375f542ea89b3bb36",
+          "pass": true
+        },
+        {
+          "path": "v05-test/Android.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "37322b0db2d113f312fd0cfe56b2065d0969f63f",
+          "actualBlob": "37322b0db2d113f312fd0cfe56b2065d0969f63f",
+          "pass": true
+        },
+        {
+          "path": "v05-test/README.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "a8ef2a8f88a19399d10a87851d0cdaa6c9d100c8",
+          "actualBlob": "a8ef2a8f88a19399d10a87851d0cdaa6c9d100c8",
+          "pass": true
+        },
+        {
+          "path": "v05-test/app.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "9d0a9678bb5b727d63bacc19f4dce5432b3d6c31",
+          "actualBlob": "9d0a9678bb5b727d63bacc19f4dce5432b3d6c31",
+          "pass": true
+        },
+        {
+          "path": "v05-test/core.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "455d9ea4044feb8dd2ada039430d3a2aa92fe70c",
+          "actualBlob": "455d9ea4044feb8dd2ada039430d3a2aa92fe70c",
+          "pass": true
+        },
+        {
+          "path": "v05-test/icon.svg",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "eae85c9b062f009aeaa90484def18b5f2c9616e2",
+          "actualBlob": "eae85c9b062f009aeaa90484def18b5f2c9616e2",
+          "pass": true
+        },
+        {
+          "path": "v05-test/icon192.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "153dcd5dfa5b867215b3809150933834045780c5",
+          "actualBlob": "153dcd5dfa5b867215b3809150933834045780c5",
+          "pass": true
+        },
+        {
+          "path": "v05-test/icon512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "actualBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "pass": true
+        },
+        {
+          "path": "v05-test/index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d280b5b995c587c41701ec1ab3262f47d9205c6e",
+          "actualBlob": "d280b5b995c587c41701ec1ab3262f47d9205c6e",
+          "pass": true
+        },
+        {
+          "path": "v05-test/manifest.webmanifest",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "58a01940ff80e2237057ab7b48ea13a38f716383",
+          "actualBlob": "58a01940ff80e2237057ab7b48ea13a38f716383",
+          "pass": true
+        },
+        {
+          "path": "v05-test/maskable512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "actualBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "pass": true
+        },
+        {
+          "path": "v05-test/storage.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "4cba84d9a6dada17eab4bd8b60e778895d15dc3d",
+          "actualBlob": "4cba84d9a6dada17eab4bd8b60e778895d15dc3d",
+          "pass": true
+        },
+        {
+          "path": "v05-test/style.css",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "814b88353119527f200b17bf03fe0205d07f805a",
+          "actualBlob": "814b88353119527f200b17bf03fe0205d07f805a",
+          "pass": true
+        },
+        {
+          "path": "v05-test/sw.js",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "19f59e13dfedf51c7c8d8417f7cc77fdb424200b",
+          "actualBlob": "19f59e13dfedf51c7c8d8417f7cc77fdb424200b",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test",
+          "type": "tree",
+          "mode": "040000",
+          "expectedBlob": "a9fa96a0d8d930fa409b09ac1a8264ea6bb1b054",
+          "actualBlob": "a9fa96a0d8d930fa409b09ac1a8264ea6bb1b054",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/API_OPTIONS.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "01f04abfe88c80af487b537f3ddffd9b317c17c4",
+          "actualBlob": "01f04abfe88c80af487b537f3ddffd9b317c17c4",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/Android.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "ea770486af3a96fd607337ba24d3124d74fdef9c",
+          "actualBlob": "ea770486af3a96fd607337ba24d3124d74fdef9c",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/Evidence.json",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d90226d8b8017556b5282d6fc6eea89d90b73c53",
+          "actualBlob": "d90226d8b8017556b5282d6fc6eea89d90b73c53",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/HANDOFF.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "f1627c10f1063a1f644f9f2590f56b4f62386634",
+          "actualBlob": "f1627c10f1063a1f644f9f2590f56b4f62386634",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/Logs.txt",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d22cff0b1d4507499058e89fbf26fa66bece1b20",
+          "actualBlob": "d22cff0b1d4507499058e89fbf26fa66bece1b20",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/NEXT_INPUT.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "23bf250c52e2dc999c403e9be54d9ffea072d227",
+          "actualBlob": "23bf250c52e2dc999c403e9be54d9ffea072d227",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/README.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d271822f3b53a9f5c085529d8b82e42eecc79332",
+          "actualBlob": "d271822f3b53a9f5c085529d8b82e42eecc79332",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/RESULT.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "c27bcebda244eb2e4bda98a73de7cd59262b59fd",
+          "actualBlob": "c27bcebda244eb2e4bda98a73de7cd59262b59fd",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/SHA256.txt",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "b500f6f2cd4901ad2074833a3f7848450b10465a",
+          "actualBlob": "b500f6f2cd4901ad2074833a3f7848450b10465a",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/TEST_RESULTS.json",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "aa0e9b1b97ac8a2d15fca93070d1699d8c1aa975",
+          "actualBlob": "aa0e9b1b97ac8a2d15fca93070d1699d8c1aa975",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/app.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bb4f9782504a153f0bfefa6b34d7e2617af78431",
+          "actualBlob": "bb4f9782504a153f0bfefa6b34d7e2617af78431",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/candidate-ui.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bc60bc7de20fc33e01b03c52d5b26e1214730e46",
+          "actualBlob": "bc60bc7de20fc33e01b03c52d5b26e1214730e46",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/core.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "fbd4c0225f68804f4aa2961bb04fdf50bc5c2a9d",
+          "actualBlob": "fbd4c0225f68804f4aa2961bb04fdf50bc5c2a9d",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/icon.svg",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "20ace58d41505fc7fda5469d5d851c9649909e93",
+          "actualBlob": "20ace58d41505fc7fda5469d5d851c9649909e93",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/icon192.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3c1ec7c2aee667662d0dc14265c8e1e5762a17a7",
+          "actualBlob": "3c1ec7c2aee667662d0dc14265c8e1e5762a17a7",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/icon512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "actualBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "75fe17067efd30f33f8f3e36e26b85f3c5f26dc7",
+          "actualBlob": "75fe17067efd30f33f8f3e36e26b85f3c5f26dc7",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/manifest.webmanifest",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "8ed2c382b9d8c6eea0949a5e9dfabf3a267699ab",
+          "actualBlob": "8ed2c382b9d8c6eea0949a5e9dfabf3a267699ab",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/maskable512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "actualBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/migration.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "fa74fa2d0ed5bde1521980a9faab78ac451e373e",
+          "actualBlob": "fa74fa2d0ed5bde1521980a9faab78ac451e373e",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/reorder-ui.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "018d8038b303fab23a0d22a543db8f667169f435",
+          "actualBlob": "018d8038b303fab23a0d22a543db8f667169f435",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/rss.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "445a9591026573fdb77808eff02f5fa842a47471",
+          "actualBlob": "445a9591026573fdb77808eff02f5fa842a47471",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/storage.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "9ad7626138995ea6cd8439181a91ee027cd27b81",
+          "actualBlob": "9ad7626138995ea6cd8439181a91ee027cd27b81",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/style.css",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "fbb5666aa6106f95ee2d9b359f850cd26ddd0eb6",
+          "actualBlob": "fbb5666aa6106f95ee2d9b359f850cd26ddd0eb6",
+          "pass": true
+        },
+        {
+          "path": "v051-rss-test/sw.js",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "b42a91907f133a92da8650c9d55dabb70e3f9d51",
+          "actualBlob": "b42a91907f133a92da8650c9d55dabb70e3f9d51",
+          "pass": true
+        },
+        {
+          "path": "v051-test",
+          "type": "tree",
+          "mode": "040000",
+          "expectedBlob": "78092065a03639648c41ca062e492ee502a445b5",
+          "actualBlob": "78092065a03639648c41ca062e492ee502a445b5",
+          "pass": true
+        },
+        {
+          "path": "v051-test/API_OPTIONS.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "f3213fd13c643160682a5fb77960448513ea7d7b",
+          "actualBlob": "f3213fd13c643160682a5fb77960448513ea7d7b",
+          "pass": true
+        },
+        {
+          "path": "v051-test/Android.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d16423daa14799de01d902d29e5227b5ccf662c4",
+          "actualBlob": "d16423daa14799de01d902d29e5227b5ccf662c4",
+          "pass": true
+        },
+        {
+          "path": "v051-test/HANDOFF.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d16423daa14799de01d902d29e5227b5ccf662c4",
+          "actualBlob": "d16423daa14799de01d902d29e5227b5ccf662c4",
+          "pass": true
+        },
+        {
+          "path": "v051-test/NEXT_INPUT.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3f1366cd087079d06eb1e9c6efa89cb1c7261a9b",
+          "actualBlob": "3f1366cd087079d06eb1e9c6efa89cb1c7261a9b",
+          "pass": true
+        },
+        {
+          "path": "v051-test/README.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "61d9e24e7aaaf295ff40f255e0992eae94cdf304",
+          "actualBlob": "61d9e24e7aaaf295ff40f255e0992eae94cdf304",
+          "pass": true
+        },
+        {
+          "path": "v051-test/RESULT.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "cfc4ba737363048f9ca1f0f29f75f96f9ff967dd",
+          "actualBlob": "cfc4ba737363048f9ca1f0f29f75f96f9ff967dd",
+          "pass": true
+        },
+        {
+          "path": "v051-test/SHA256.txt",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "d374c08a42a3c25b4426ac102901bc1c1cf39f18",
+          "actualBlob": "d374c08a42a3c25b4426ac102901bc1c1cf39f18",
+          "pass": true
+        },
+        {
+          "path": "v051-test/TEST_RESULTS.json",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "46511fcab972059f4de8458bca4d6e024e71847e",
+          "actualBlob": "46511fcab972059f4de8458bca4d6e024e71847e",
+          "pass": true
+        },
+        {
+          "path": "v051-test/app.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "ce7591340b31660fdd8c81ef633eb4f84afd2c73",
+          "actualBlob": "ce7591340b31660fdd8c81ef633eb4f84afd2c73",
+          "pass": true
+        },
+        {
+          "path": "v051-test/candidate-ui.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "6b1cd06784e537d931863b0d3527267330663e61",
+          "actualBlob": "6b1cd06784e537d931863b0d3527267330663e61",
+          "pass": true
+        },
+        {
+          "path": "v051-test/core.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "4f2e059a0919afe8b3251f84fb0aa11f3c3c4201",
+          "actualBlob": "4f2e059a0919afe8b3251f84fb0aa11f3c3c4201",
+          "pass": true
+        },
+        {
+          "path": "v051-test/icon.svg",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "21aac67477e6ef8d4171869bedebc366ce50d6f2",
+          "actualBlob": "21aac67477e6ef8d4171869bedebc366ce50d6f2",
+          "pass": true
+        },
+        {
+          "path": "v051-test/icon192.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "153dcd5dfa5b867215b3809150933834045780c5",
+          "actualBlob": "153dcd5dfa5b867215b3809150933834045780c5",
+          "pass": true
+        },
+        {
+          "path": "v051-test/icon512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "actualBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "pass": true
+        },
+        {
+          "path": "v051-test/index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "fdbd0fb7a4f022b0d5e7c64d90734cda883bc2be",
+          "actualBlob": "fdbd0fb7a4f022b0d5e7c64d90734cda883bc2be",
+          "pass": true
+        },
+        {
+          "path": "v051-test/manifest.webmanifest",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "8761ac9b92c446e9758058aab57adad5f2b6893f",
+          "actualBlob": "8761ac9b92c446e9758058aab57adad5f2b6893f",
+          "pass": true
+        },
+        {
+          "path": "v051-test/maskable512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "actualBlob": "3beebd4212f85e07830b7e195dd48bc7c7a0be8c",
+          "pass": true
+        },
+        {
+          "path": "v051-test/migration.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "0d3202057d7d850cf38201f2eae27dc9fb86889e",
+          "actualBlob": "0d3202057d7d850cf38201f2eae27dc9fb86889e",
+          "pass": true
+        },
+        {
+          "path": "v051-test/storage.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "c302e2141505e22bfffa3d1effe533783f2751d5",
+          "actualBlob": "c302e2141505e22bfffa3d1effe533783f2751d5",
+          "pass": true
+        },
+        {
+          "path": "v051-test/style.css",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "2d02c13fe1161f2000435da7e7c56ce603fef328",
+          "actualBlob": "2d02c13fe1161f2000435da7e7c56ce603fef328",
+          "pass": true
+        },
+        {
+          "path": "v051-test/sw.js",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "34d844dc894b915accf7f00e82deb9f2a7cc993f",
+          "actualBlob": "34d844dc894b915accf7f00e82deb9f2a7cc993f",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test",
+          "type": "tree",
+          "mode": "040000",
+          "expectedBlob": "8e2449c44ddb5904812c4669510ed5bdfa9a7584",
+          "actualBlob": "8e2449c44ddb5904812c4669510ed5bdfa9a7584",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/API_OPTIONS.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "c0152326011034b75a8df3ef2932c62360785ce1",
+          "actualBlob": "c0152326011034b75a8df3ef2932c62360785ce1",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/Android.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bafda78bdc697dca6340ed1ce9ff5943f80eedac",
+          "actualBlob": "bafda78bdc697dca6340ed1ce9ff5943f80eedac",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/Evidence.json",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "cdca9ff35ce2ec35d162145398507fabd45a5920",
+          "actualBlob": "cdca9ff35ce2ec35d162145398507fabd45a5920",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/HANDOFF.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bafda78bdc697dca6340ed1ce9ff5943f80eedac",
+          "actualBlob": "bafda78bdc697dca6340ed1ce9ff5943f80eedac",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/Logs.txt",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "0a676a71eded94ecd5ba9fe9c221349c7044bd36",
+          "actualBlob": "0a676a71eded94ecd5ba9fe9c221349c7044bd36",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/NEXT_INPUT.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "6826d70fecd5e71106e13baab1a251566a72eafe",
+          "actualBlob": "6826d70fecd5e71106e13baab1a251566a72eafe",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/README.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "a0169e4145b9e513a94c1a23c56d6e4d29458f5d",
+          "actualBlob": "a0169e4145b9e513a94c1a23c56d6e4d29458f5d",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/RESULT.md",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "c5f43e1afe530819a370ba1823cfb5b25e331342",
+          "actualBlob": "c5f43e1afe530819a370ba1823cfb5b25e331342",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/SHA256.txt",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "64b589a330fb054502e07d7cded25f63a45ebc8a",
+          "actualBlob": "64b589a330fb054502e07d7cded25f63a45ebc8a",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/TEST_RESULTS.json",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "f5c017474e1fc68a78ed9f7b6266abfc13bd4bc2",
+          "actualBlob": "f5c017474e1fc68a78ed9f7b6266abfc13bd4bc2",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/app.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "375f6f9c1753423022921a83ac50f1143ce19ea0",
+          "actualBlob": "375f6f9c1753423022921a83ac50f1143ce19ea0",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/candidate-ui.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bc60bc7de20fc33e01b03c52d5b26e1214730e46",
+          "actualBlob": "bc60bc7de20fc33e01b03c52d5b26e1214730e46",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/core.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "bc5ec49fd99b55399e8d81a69bc0296b8f10d49e",
+          "actualBlob": "bc5ec49fd99b55399e8d81a69bc0296b8f10d49e",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/icon.svg",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "20ace58d41505fc7fda5469d5d851c9649909e93",
+          "actualBlob": "20ace58d41505fc7fda5469d5d851c9649909e93",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/icon192.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "3c1ec7c2aee667662d0dc14265c8e1e5762a17a7",
+          "actualBlob": "3c1ec7c2aee667662d0dc14265c8e1e5762a17a7",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/icon512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "actualBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/index.html",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "586bfb664eb5c9b840d2962b2c2f6b7189264530",
+          "actualBlob": "586bfb664eb5c9b840d2962b2c2f6b7189264530",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/manifest.webmanifest",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "ce7f75f9c21aa10879d417b3919bff203b3fea34",
+          "actualBlob": "ce7f75f9c21aa10879d417b3919bff203b3fea34",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/maskable512.png",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "actualBlob": "09e9c8a7c8c23934e9b33684fdc647cf4e906f96",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/migration.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "fa74fa2d0ed5bde1521980a9faab78ac451e373e",
+          "actualBlob": "fa74fa2d0ed5bde1521980a9faab78ac451e373e",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/reorder-ui.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "018d8038b303fab23a0d22a543db8f667169f435",
+          "actualBlob": "018d8038b303fab23a0d22a543db8f667169f435",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/storage.mjs",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "6bebd22ebe0848133957d2f9052f069e552183b1",
+          "actualBlob": "6bebd22ebe0848133957d2f9052f069e552183b1",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/style.css",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "0d9b4dcef8c5fca0cdcce52bcb291df34a3e9b11",
+          "actualBlob": "0d9b4dcef8c5fca0cdcce52bcb291df34a3e9b11",
+          "pass": true
+        },
+        {
+          "path": "v051-ui-test/sw.js",
+          "type": "blob",
+          "mode": "100644",
+          "expectedBlob": "c8117fa6e8fdfb46216e5d4b37cc8128b33f07d7",
+          "actualBlob": "c8117fa6e8fdfb46216e5d4b37cc8128b33f07d7",
+          "pass": true
+        }
+      ]
+    },
+    "newEntries": [
+      {
+        "path": "v07-test",
+        "type": "tree",
+        "sha": "538e149f3e5e1a2f9d7ee452c9887449ce74174b"
+      },
+      {
+        "path": "v07-test/Android.md",
+        "type": "blob",
+        "sha": "832287d4405764f29a1459a18833daa9c75bd162"
+      },
+      {
+        "path": "v07-test/Evidence.json",
+        "type": "blob",
+        "sha": "e6d729c0e7f162706d69e5b7844be48a78243fff"
+      },
+      {
+        "path": "v07-test/HANDOFF.md",
+        "type": "blob",
+        "sha": "304b310253785459a22093e68c683845f3b0422e"
+      },
+      {
+        "path": "v07-test/Logs.txt",
+        "type": "blob",
+        "sha": "ffe2f7cea099db86ab76774208503d338637746b"
+      },
+      {
+        "path": "v07-test/NEXT_INPUT.md",
+        "type": "blob",
+        "sha": "83f4b52ee7e1dc32cb506a35d189b51fe47612ac"
+      },
+      {
+        "path": "v07-test/README.md",
+        "type": "blob",
+        "sha": "9392b9d267bfcaea1a70457f90d367da88c3d32b"
+      },
+      {
+        "path": "v07-test/RESULT.md",
+        "type": "blob",
+        "sha": "18155069cf6686a025843bfe10615bdd7c808d17"
+      },
+      {
+        "path": "v07-test/SHA256.txt",
+        "type": "blob",
+        "sha": "788d635e1f4e5becb8972b1a763ded4b18c8ac3e"
+      },
+      {
+        "path": "v07-test/app.mjs",
+        "type": "blob",
+        "sha": "79adcd9211db432f00da07a378d908430a41a34b"
+      },
+      {
+        "path": "v07-test/core.mjs",
+        "type": "blob",
+        "sha": "bab3cc40f20ddb4f77cad18b4d303f2f8108056e"
+      },
+      {
+        "path": "v07-test/icon.svg",
+        "type": "blob",
+        "sha": "376de12f32b1ee2f42e6bcd1510bb55e6fc594cd"
+      },
+      {
+        "path": "v07-test/icon192.png",
+        "type": "blob",
+        "sha": "a860a118e4d59f64a972622274198887f2d3ab99"
+      },
+      {
+        "path": "v07-test/icon512.png",
+        "type": "blob",
+        "sha": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4"
+      },
+      {
+        "path": "v07-test/index.html",
+        "type": "blob",
+        "sha": "ada8c24756e73c66b44e727c254439e22ef9425e"
+      },
+      {
+        "path": "v07-test/legacy-v05.mjs",
+        "type": "blob",
+        "sha": "455d9ea4044feb8dd2ada039430d3a2aa92fe70c"
+      },
+      {
+        "path": "v07-test/manifest.webmanifest",
+        "type": "blob",
+        "sha": "159fdff064b13450f4e4633ee068a6abbd41af16"
+      },
+      {
+        "path": "v07-test/maskable512.png",
+        "type": "blob",
+        "sha": "0f51640dafbb2262f2f04cc616b8b893fd1a42b4"
+      },
+      {
+        "path": "v07-test/storage.mjs",
+        "type": "blob",
+        "sha": "6569a39be957a0b1c3f9f183c404bdc74dc18875"
+      },
+      {
+        "path": "v07-test/style.css",
+        "type": "blob",
+        "sha": "cc77acfd918c360b82f13225d73540d9f11a31ff"
+      },
+      {
+        "path": "v07-test/sw.js",
+        "type": "blob",
+        "sha": "488f7fff34bb865a95f031771d1433b92bf895c5"
+      }
+    ],
+    "truncated": false,
+    "notes": [
+      {
+        "status": 404,
+        "path": "newv07-test/Android.md",
+        "reason": "Delegated path typo; inspected exact tree and switched to actual v07-test/ prefix. No403 encountered."
+      }
+    ]
+  },
+  "pagesReadback": {
+    "generatedAt": "2026-10-17T10:29:26.837Z",
+    "target": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/",
+    "status": "PASS",
+    "files": [
+      {
+        "path": "Android.md",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/Android.md",
+        "status": 200,
+        "bytes": 11688,
+        "sha256": "87fb33d303429098242e2da74c38cf203997010164b97e101802dfd27635ac22",
+        "expectedSha256": "87fb33d303429098242e2da74c38cf203997010164b97e101802dfd27635ac22",
+        "mime": "text/markdown; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "Evidence.json",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/Evidence.json",
+        "status": 200,
+        "bytes": 18200,
+        "sha256": "833794a9aff824c92aad2b947003e8bbc1857f43687b7951779d0f9f38802d1f",
+        "expectedSha256": "833794a9aff824c92aad2b947003e8bbc1857f43687b7951779d0f9f38802d1f",
+        "mime": "application/json; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "HANDOFF.md",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/HANDOFF.md",
+        "status": 200,
+        "bytes": 1549,
+        "sha256": "0e1bcd7b0bf834fd88ca51aea55e25bc834cb3a33d6f1540f6fa450bff7903a4",
+        "expectedSha256": "0e1bcd7b0bf834fd88ca51aea55e25bc834cb3a33d6f1540f6fa450bff7903a4",
+        "mime": "text/markdown; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "Logs.txt",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/Logs.txt",
+        "status": 200,
+        "bytes": 1071,
+        "sha256": "8d3eef755ec909d6bec55c52c1c1fdb04bdc2879aef7476918263538475805ad",
+        "expectedSha256": "8d3eef755ec909d6bec55c52c1c1fdb04bdc2879aef7476918263538475805ad",
+        "mime": "text/plain; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "NEXT_INPUT.md",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/NEXT_INPUT.md",
+        "status": 200,
+        "bytes": 743,
+        "sha256": "4070afbab68d4b30c332bb703b068110823d0bb8c4211589b3ecccb2fdfec7dd",
+        "expectedSha256": "4070afbab68d4b30c332bb703b068110823d0bb8c4211589b3ecccb2fdfec7dd",
+        "mime": "text/markdown; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "README.md",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/README.md",
+        "status": 200,
+        "bytes": 6835,
+        "sha256": "c84f19c44fed98f802bc3792d1ae54df370ad7d8cfa375fb1a4f34ece5d28417",
+        "expectedSha256": "c84f19c44fed98f802bc3792d1ae54df370ad7d8cfa375fb1a4f34ece5d28417",
+        "mime": "text/markdown; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "RESULT.md",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/RESULT.md",
+        "status": 200,
+        "bytes": 881,
+        "sha256": "a700814cc41b517e0cf89783cfec4f912f2fa742a149ce8022959630e060cc81",
+        "expectedSha256": "a700814cc41b517e0cf89783cfec4f912f2fa742a149ce8022959630e060cc81",
+        "mime": "text/markdown; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "SHA256.txt",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/SHA256.txt",
+        "status": 200,
+        "bytes": 1474,
+        "sha256": "20f861475ebb2f705ec161c637becb64cac374e1c059387a597346267d5bd6e0",
+        "expectedSha256": "20f861475ebb2f705ec161c637becb64cac374e1c059387a597346267d5bd6e0",
+        "mime": "text/plain; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "app.mjs",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/app.mjs",
+        "status": 200,
+        "bytes": 20544,
+        "sha256": "ca4a15d17d65b9f00400f5dec25fdf7b246e146abb5e6b4cb84907bb04b6737f",
+        "expectedSha256": "ca4a15d17d65b9f00400f5dec25fdf7b246e146abb5e6b4cb84907bb04b6737f",
+        "mime": "text/javascript; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "core.mjs",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/core.mjs",
+        "status": 200,
+        "bytes": 29806,
+        "sha256": "c02bc8a398ad314e5a1f16ca6f55f35acb10cc494e38e3822e7e1b56b2ca4d46",
+        "expectedSha256": "c02bc8a398ad314e5a1f16ca6f55f35acb10cc494e38e3822e7e1b56b2ca4d46",
+        "mime": "text/javascript; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "icon.svg",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/icon.svg",
+        "status": 200,
+        "bytes": 501,
+        "sha256": "4c1f188c4646dbc15cb7f82a04d19beba45a17d52cb73d7cc3122ac2ea6ed16a",
+        "expectedSha256": "4c1f188c4646dbc15cb7f82a04d19beba45a17d52cb73d7cc3122ac2ea6ed16a",
+        "mime": "image/svg+xml",
+        "pass": true
+      },
+      {
+        "path": "icon192.png",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/icon192.png",
+        "status": 200,
+        "bytes": 2432,
+        "sha256": "462b34a9b304e03420363694215ecd79898213371da3f2b653e869cd99a9afe9",
+        "expectedSha256": "462b34a9b304e03420363694215ecd79898213371da3f2b653e869cd99a9afe9",
+        "mime": "image/png",
+        "pass": true
+      },
+      {
+        "path": "icon512.png",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/icon512.png",
+        "status": 200,
+        "bytes": 7084,
+        "sha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "expectedSha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "mime": "image/png",
+        "pass": true
+      },
+      {
+        "path": "index.html",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/index.html",
+        "status": 200,
+        "bytes": 8824,
+        "sha256": "bdb7ad0db3a9eb7c31795c2fcf341d622576efc95490be3382f9bc8e38f279e8",
+        "expectedSha256": "bdb7ad0db3a9eb7c31795c2fcf341d622576efc95490be3382f9bc8e38f279e8",
+        "mime": "text/html; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "legacy-v05.mjs",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "status": 200,
+        "bytes": 25964,
+        "sha256": "801f95c908056d73fc412295b3cf209dae28a5070a55bd74391e0abb0859077e",
+        "expectedSha256": "801f95c908056d73fc412295b3cf209dae28a5070a55bd74391e0abb0859077e",
+        "mime": "text/javascript; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "manifest.webmanifest",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/manifest.webmanifest",
+        "status": 200,
+        "bytes": 1094,
+        "sha256": "b8f89bc231cd927e504a45980fca17b3bbed81c306124743b11ecc0c2dd9cd6b",
+        "expectedSha256": "b8f89bc231cd927e504a45980fca17b3bbed81c306124743b11ecc0c2dd9cd6b",
+        "mime": "application/manifest+json; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "maskable512.png",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/maskable512.png",
+        "status": 200,
+        "bytes": 7084,
+        "sha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "expectedSha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854",
+        "mime": "image/png",
+        "pass": true
+      },
+      {
+        "path": "storage.mjs",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/storage.mjs",
+        "status": 200,
+        "bytes": 10681,
+        "sha256": "ffb61f3cf2d3293110e944ceead92d44c8c969e65f8505168f5dfc7c0837504b",
+        "expectedSha256": "ffb61f3cf2d3293110e944ceead92d44c8c969e65f8505168f5dfc7c0837504b",
+        "mime": "text/javascript; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "style.css",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/style.css",
+        "status": 200,
+        "bytes": 5985,
+        "sha256": "e07dbf94e115f560e16602aad909a5f3a9ef139787122d9a2a6066476e8e35c3",
+        "expectedSha256": "e07dbf94e115f560e16602aad909a5f3a9ef139787122d9a2a6066476e8e35c3",
+        "mime": "text/css; charset=utf-8",
+        "pass": true
+      },
+      {
+        "path": "sw.js",
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/sw.js",
+        "status": 200,
+        "bytes": 3722,
+        "sha256": "4412977ab12be5f9398677838416b71d8dfd994511d4ffba1730cbde0a6689a8",
+        "expectedSha256": "4412977ab12be5f9398677838416b71d8dfd994511d4ffba1730cbde0a6689a8",
+        "mime": "application/javascript; charset=utf-8",
+        "pass": true
+      }
+    ]
+  },
+  "deployment": {
+    "generatedAt": "2026-10-17T10:25:32.571Z",
+    "status": "DEPLOYED_VERIFIED_DESKTOP",
+    "userApproved": true,
+    "userApprovalDate": "2026-10-17 Asia/Tokyo",
+    "approvedScope": "Only20 files under new main/v07-test/, preserving every existing file including V05/V06. GitHub Pages live SHA256/start/save/restore verification authorized.",
+    "branch": "v07-test",
+    "candidateCommit": "f6a8401fa451f9e7b358ae1498cda316144f4c36",
+    "baselineCommit": "58bfec8763557c3cf392a2f8751a4bb89b0cf6c8",
+    "baselineTree": "edd1debe74294aa149894c284b1f032cc2fdd7f6",
+    "baselineFiles": 93,
+    "baselineEntries": 99,
+    "pagesPublished": true,
+    "physicalAndroid": "NOT_TESTED",
+    "previousApprovalReview": {
+      "generatedAt": "2026-10-16T13:10:11.705Z",
+      "candidateCommit": "f6a8401fa451f9e7b358ae1498cda316144f4c36",
+      "branch": "v07-test",
+      "candidateUploaded": true,
+      "mainUnchanged": true,
+      "mainHead": "a52cf832f02f4d71a94e909b6c7af016f7eee608",
+      "pagesPublished": false,
+      "publicBrowserTest": "NOT_RUN",
+      "status": "BLOCKED_AUTO_REVIEW_MAIN_NOT_AUTHORIZED",
+      "rejectedAction": "update_ref main expected a52cf832 to candidate f6a8401; only v07-test/ added; existing26 entries identical",
+      "reason": "Automatic approval review rejected moving default main: user specified isolated v07-test publication and did not authorize default branch modification.",
+      "requiredApproval": "Add only the reviewed v07-test/ directory (20 files) to main to use the current GitHub Pages deployment source. No existing files or Pages settings changes."
+    },
+    "baseline": {
+      "commit": "58bfec8763557c3cf392a2f8751a4bb89b0cf6c8",
+      "tree": "edd1debe74294aa149894c284b1f032cc2fdd7f6",
+      "existingFiles": 93,
+      "existingEntries": 99,
+      "evidence": "approved-baseline-tree.json"
+    },
+    "approval": {
+      "status": "APPROVED",
+      "scope": "Only20 files under new main/v07-test/, preserving every existing file including V05/V06. GitHub Pages live SHA256/start/save/restore verification authorized.",
+      "resolvedPreviousBlock": true
+    },
+    "mainHead": "b541cf14a383ac45b276eb6e24e0078bb6583b74",
+    "initialPublicCommit": "b541cf14a383ac45b276eb6e24e0078bb6583b74",
+    "existingEntriesPreserved": 99,
+    "addedFiles": 20,
+    "pagesRunId": 39025022232,
+    "pagesRunUrl": "https://github.com/SASAKIjoe/x-patrol-assistant/actions/runs/39025022232",
+    "approvalRecordedAt": "2026-10-17T10:28:52.169Z",
+    "initialPagesStatus": "success",
+    "initialPagesRun": 39025022232,
+    "liveUrl": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/",
+    "initialPagesSHA256": "PASS20",
+    "history": [
+      {
+        "event": "approval-review-rejection-before-explicit-main-approval",
+        "at": "2026-10-16T13:10:11.705Z",
+        "reason": "Automatic approval review rejected moving default main: user specified isolated v07-test publication and did not authorize default branch modification.",
+        "resolved": true
+      },
+      {
+        "event": "explicit-user-approval",
+        "date": "2026-10-17 Asia/Tokyo",
+        "scope": "Only20 files under new main/v07-test/, preserving every existing file including V05/V06. GitHub Pages live SHA256/start/save/restore verification authorized."
+      },
+      {
+        "event": "initial-pages-deployment-success",
+        "commit": "b541cf14a383ac45b276eb6e24e0078bb6583b74",
+        "runId": 39025022232,
+        "at": "2026-10-17T10:29:45.477Z"
+      }
+    ],
+    "publicBrowserTest": "PASS15",
+    "officialPass": false
+  },
+  "publicationApprovalResolved": true,
+  "publicationHistory": [
+    {
+      "event": "approval-review-rejection-before-explicit-main-approval",
+      "at": "2026-10-16T13:10:11.705Z",
+      "reason": "Automatic approval review rejected moving default main: user specified isolated v07-test publication and did not authorize default branch modification.",
+      "resolved": true
+    },
+    {
+      "event": "explicit-user-approval",
+      "date": "2026-10-17 Asia/Tokyo",
+      "scope": "Only20 files under new main/v07-test/, preserving every existing file including V05/V06. GitHub Pages live SHA256/start/save/restore verification authorized."
+    },
+    {
+      "event": "initial-pages-deployment-success",
+      "commit": "b541cf14a383ac45b276eb6e24e0078bb6583b74",
+      "runId": 39025022232,
+      "at": "2026-10-17T10:29:45.477Z"
+    }
+  ],
+  "initialPagesAvailability": {
+    "checkedAt": "2026-10-16T13:10:14.724Z",
+    "target": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/",
+    "method": "GET",
+    "purpose": "One read-only actual GitHub Pages availability check; branch upload does not establish public deployment.",
+    "attempts": 1,
+    "retries": 0,
+    "navigationRequests": [
+      {
+        "url": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/",
+        "method": "GET"
+      }
+    ],
+    "subresourcesBlocked": true,
+    "http403Stop": false,
+    "realAndroidDevice": "NOT_TESTED",
+    "httpStatus": 404,
+    "title": "Page not found · GitHub Pages",
+    "resolvedUrl": "https://sasakijoe.github.io/x-patrol-assistant/v07-test/",
+    "available": false,
+    "result": "PUBLIC_URL_NOT_AVAILABLE",
+    "historical": true
+  },
+  "verificationSnapshot": {
+    "purpose": "Initial public runtime and desktop validation at document generation; final exact product checksums are verified externally after document freeze.",
+    "runtimeFileCount": 12,
+    "distributionFileCount": 20,
+    "finalExactReadbackFiles": [
+      "evidence/github-readback-final.json",
+      "evidence/pages-readback-final.json"
+    ],
+    "checksumScope": "SHA256.txt covers the other 19 product files and excludes itself. External release-files.json and final readbacks include all 20.",
+    "note": "Evidence.jsonは文書生成時点の初回公開ランタイム・PC検証のスナップショットです。文書とSHA256の確定後に行う最終20ファイルの完全一致は、納品ZIP内 evidence/github-readback-final.json と evidence/pages-readback-final.json に記録します。自己参照を避けるため最終読戻し後は製品文書を再生成しません。"
+  },
   "limitations": [
     "Android installation, share sheet, WebAPK, continuous share and device restart are NOT_TESTED; see Android.md A01-A23.",
     "390px is desktop layout validation, not an Android device.",
@@ -642,5 +2224,5 @@
     "No API metadata, scraping, existence checks, automatic like/follow, auth or telemetry.",
     "YouTube aliases/channel ID/handle are not cross-resolved; identical normalized supplied URL only."
   ],
-  "evidenceLocation": "Full scripts, raw logs and screenshots in delivery ZIP tests/ and evidence/. Synthetic data only."
+  "evidenceLocation": "Full scripts, logs, final exact readbacks and screenshots in delivery ZIP tests/ and evidence/. Synthetic data only."
 }

@@ -7,6 +7,14 @@ TASK_ID: SNS_WATCH_BOX_V07_YOUTUBE_INTEGRATION_V01
 
 **完成候補。Android実機は未検証のため、正式PASSではありません。** 公開・読戻しの実測結果は Evidence.json と RESULT.md を参照してください。
 
+<!-- PUBLICATION_STATUS_START -->
+公開状態: **DEPLOYED_VERIFIED_DESKTOP**
+
+GitHub Pagesへ試験公開済み。公開実URLで起動・保存・復元の初回PC検証を完了しました。 mainの新規v07-test/20ファイルへの追加はユーザーの明示承認済みで、前回の承認待ちは解消しています。 既存ファイルとPages設定を変更しない範囲で公開します。
+
+Android実機は **NOT_TESTED**、正式PASSではありません。初回公開検証は [Evidence.json](./Evidence.json) と [RESULT.md](./RESULT.md)、文書確定後の最終20ファイル照合は納品ZIP内のfinal読戻し記録を参照してください。
+<!-- PUBLICATION_STATUS_END -->
+
 ## 使い方
 
 1. Android Chromeでこの版を開いてインストールします。X・YouTubeの「共有」から「SNS WATCH BOX V0.7」を選びます。表示されない場合はURLをコピーして収集BOXに貼り付けます。
@@ -40,12 +48,16 @@ Web Share Targetにはインストール済みPWAと対応Android環境が必要
 
 V0.7のManifest ID・scope・起動・共有先・SWスコープは `/x-patrol-assistant/v07-test/`。キャッシュ名は `swb07-shell-*`。旧版のファイル・SW・キャッシュ・保存キーを変更しません。初回に旧ルートの広いSWがページを扱う場合がありますが、旧SWを解除せずV0.7専用SWへ制御が移るのを待ちます。
 
-必須12ファイルは `index.html`、`style.css`、`app.mjs`、`core.mjs`、`storage.mjs`、`legacy-v05.mjs`、`manifest.webmanifest`、`sw.js`、`icon.svg`、`icon192.png`、`icon512.png`、`maskable512.png`。外部ランタイム依存はありません。欠落時は不完全なSWを有効化しません。SHA256.txtには自身以外の配布ファイルの指紋を記録します。
+必須ランタイム12ファイルは `index.html`、`style.css`、`app.mjs`、`core.mjs`、`storage.mjs`、`legacy-v05.mjs`、`manifest.webmanifest`、`sw.js`、`icon.svg`、`icon192.png`、`icon512.png`、`maskable512.png`。外部ランタイム依存はありません。欠落時は不完全なSWを有効化しません。文書を含む配布物は20ファイルで、SHA256.txtには自身を除く19ファイルの指紋を記録します。納品ZIP内の `evidence/release-files.json` にはSHA256.txtも含め全20ファイルを記録します。
 
 GitHub Pagesは既存mainを配信しているため、新規 `v07-test/` だけを追加して公開します。独立ブランチ `v07-test` にも同じ候補を置きます。mainの既存ファイルはGit blobで変更なしを照合します。
+
+公開基準はユーザー承認後に取得したmainです。基準commit・treeと既存ファイル数は [Evidence.json](./Evidence.json) のbaselineおよび納品ZIP内 `evidence/deploy.json`、`evidence/approved-baseline-tree.json` に記録します。以前の公開前HTTP404・承認拒否は履歴として保持し、現在の公開可否の判定には使いません。
 
 ## 検証と引継ぎ
 
 ローカル自動テスト・ブラウザ操作・移行試験の生ログは納品ZIPの `evidence/`、再実行スクリプトは `tests/`。Node.jsとPlaywright/Chromeで実行します。合成テストデータのみを使用し、実際のSNSページやユーザーの保存データは収集しません。
+
+Evidence.jsonは文書生成時点の初回公開ランタイム・PCブラウザ検証のスナップショットです。文書とSHA256を確定して公開後、全20ファイルの最終一致を `evidence/github-readback-final.json` と `evidence/pages-readback-final.json` に記録します。文書の自己参照チェックサムを避けるため、最終読戻し後は製品文書を再生成しません。公開PC検証が通っても、Android.md A01–A23が実機で確認されるまで正式PASSにしません。
 
 実測結果: [Evidence.json](./Evidence.json) · [Logs.txt](./Logs.txt) · [RESULT.md](./RESULT.md) · [HANDOFF.md](./HANDOFF.md) · [NEXT_INPUT.md](./NEXT_INPUT.md)
