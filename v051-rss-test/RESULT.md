@@ -4,6 +4,6 @@
 
 初回基準・新着表示・✔・取り消し・再起動保持・取得失敗時の状態保持・JSON往復を確認しました。100人以上の登録と共有・BOX・巡回・保存は既存回帰試験でも確認しました。
 
-PR #1 で独立試験先の25ファイルだけを追加。今回の自動照合改修は公開前のローカル検証を通過。公開URLの改修版読戻しとAndroid実機は未実施。Android Human Gate: NOT_TESTED。
+PR #1 で独立試験先を追加し、PR #2 で候補登録・起動時の自動照合を公開。公開URLで15個のキャッシュ対象ファイルと表示・保存・オフライン・並び替えを検証し、空のブラウザから3人登録してRSS基準 3/3 を確認しました。Android実機は未実施。Android Human Gate: NOT_TESTED。
 
 公開URL: https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/

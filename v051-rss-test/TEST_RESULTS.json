@@ -4,7 +4,9 @@
     "unit": 67,
     "regression": 18,
     "rssBrowser": 10,
-    "liveFeeds": 3
+    "liveFeeds": 3,
+    "publicSmoke": 10,
+    "publicAuto": 1
   },
   "physicalAndroid": "NOT_TESTED"
 }

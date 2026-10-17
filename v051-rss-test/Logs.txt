@@ -1,6 +1,7 @@
 SNS-WATCH-PWA-054-RSS
-Previous public commit: 0e6c02cc6a56e7f4eedbfefdc99490b492c3938d
-Unit 67; regression 18; RSS browser 10; live feeds 3
-Deployment: AUTO_UPDATE_QA_PASS_PENDING_PUBLIC
+Application commit: a9ebbfce98283c69bb6535aaf4492e71adb5563c
+Pages run: 39006386068
+Unit 67; regression 18; RSS browser 10; live feeds 3; public smoke 10; public auto RSS 1
+Deployment: PUBLIC_AUTO_UPDATE_VERIFIED
 Physical Android: NOT_TESTED
 Detailed results: delivery tests/Evidence and tests/RSS_*_RESULTS.json

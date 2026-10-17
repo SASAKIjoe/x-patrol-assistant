@@ -1,17 +1,21 @@
 {
-  "at": "2026-10-17T05:25:28.193Z",
+  "at": "2026-10-17T05:33:02.810Z",
   "workCode": "SNS-WATCH-PWA-054-RSS",
   "taskId": "SNS_WATCH_BOX_PWA_RSS_PILOT_V01",
   "status": "AUTOMATED_QA_PASS",
-  "deployment": "AUTO_UPDATE_QA_PASS_PENDING_PUBLIC",
-  "previousPublishedCommit": "0e6c02cc6a56e7f4eedbfefdc99490b492c3938d",
+  "deployment": "PUBLIC_AUTO_UPDATE_VERIFIED",
+  "applicationCommit": "a9ebbfce98283c69bb6535aaf4492e71adb5563c",
+  "pagesRun": 39006386068,
+  "pullRequest": "https://github.com/SASAKIjoe/x-patrol-assistant/pull/2",
   "physicalAndroid": "NOT_TESTED",
   "humanGate": "HG-RSS-054",
   "counts": {
     "unit": 67,
     "regression": 18,
     "rssBrowser": 10,
-    "liveFeeds": 3
+    "liveFeeds": 3,
+    "publicSmoke": 10,
+    "publicAuto": 1
   },
   "liveFeeds": [
     {
