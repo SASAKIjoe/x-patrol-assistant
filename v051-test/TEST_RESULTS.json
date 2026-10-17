@@ -1,0 +1,41 @@
+{
+  "workCode": "X-PATROL-051",
+  "taskId": "X_PATROL_V051_COMPACT_CANDIDATE_LIST_AND_RETURN_POSITION_V01",
+  "status": "AUTOMATED_QA_PASS_ANDROID_PENDING",
+  "sourceCommit": "a52cf832f02f4d71a94e909b6c7af016f7eee608",
+  "unitAuditWorkerDisplay": {
+    "pass": 45,
+    "fail": 0
+  },
+  "storage": {
+    "pass": 12,
+    "fail": 0
+  },
+  "regressionBrowser": {
+    "pass": 18,
+    "fail": 0
+  },
+  "compactBrowser": {
+    "pass": 19,
+    "fail": 0,
+    "candidates": 150,
+    "widths": [
+      360,
+      390,
+      768,
+      1024
+    ],
+    "summaryHeightPx": 72
+  },
+  "totalChecks": 94,
+  "realAndroid": "NOT_TESTED",
+  "humanGate": "HG-ANDROID-051",
+  "bfcache": "Synthetic persisted event plus real browser back; Android native BFCache not claimed",
+  "limitations": [
+    "Isolated desktop Chrome touch emulation is not physical Android.",
+    "Only local X navigation fixture was opened; native external X app return is a human gate.",
+    "Root legacy worker may cache first GET share before child worker controls the new app.",
+    "sessionStorage can be lost when Android destroys an entire browser session."
+  ],
+  "trialUrl": "https://sasakijoe.github.io/x-patrol-assistant/v051-test/"
+}
