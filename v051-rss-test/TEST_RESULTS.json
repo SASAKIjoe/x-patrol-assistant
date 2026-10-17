@@ -1,0 +1,10 @@
+{
+  "status": "AUTOMATED_QA_PASS",
+  "counts": {
+    "unit": 67,
+    "regression": 18,
+    "rssBrowser": 8,
+    "liveFeeds": 3
+  },
+  "physicalAndroid": "NOT_TESTED"
+}
