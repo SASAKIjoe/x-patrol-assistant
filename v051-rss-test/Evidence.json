@@ -1,12 +1,12 @@
 {
-  "at": "2026-10-17T06:02:06.934Z",
+  "at": "2026-10-17T06:05:23.616Z",
   "workCode": "SNS-WATCH-PWA-055-ALLRSS",
   "taskId": "SNS_WATCH_BOX_PWA_ALL_CANDIDATE_RSS_V01",
   "status": "AUTOMATED_QA_PASS",
-  "deployment": "PENDING_PUBLIC",
+  "deployment": "PUBLIC_ALL_CANDIDATES_VERIFIED",
   "previousPublicCommit": "b6a2832d6ce7ef8ec36aa3fccd63315e890d9724",
-  "applicationCommit": null,
-  "pagesRun": null,
+  "applicationCommit": "876d029dfc8cf59fa8fd4980233f29ec8f939bd7",
+  "pagesRun": "39008485600",
   "physicalAndroid": "NOT_TESTED",
   "humanGate": "HG-ALLRSS-055",
   "counts": {
@@ -39,6 +39,12 @@
       "success": true
     }
   ],
-  "publicChecks": null,
+  "publicChecks": {
+    "smoke": "PASS",
+    "auto": "PASS",
+    "readback": "PASS",
+    "matched": 25,
+    "total": 25
+  },
   "url": "https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/"
 }

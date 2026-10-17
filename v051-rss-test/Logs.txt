@@ -1,7 +1,7 @@
 SNS-WATCH-PWA-055-ALLRSS
 Previous public commit: b6a2832d6ce7ef8ec36aa3fccd63315e890d9724
-Application commit: PENDING
-Pages run: PENDING
+Application commit: 876d029dfc8cf59fa8fd4980233f29ec8f939bd7
+Pages run: 39008485600
 Unit 74; regression 18; compact 21; drag 23; RSS browser 12; live feeds 4
-Deployment: PENDING_PUBLIC
+Deployment: PUBLIC_ALL_CANDIDATES_VERIFIED
 Physical Android: NOT_TESTED

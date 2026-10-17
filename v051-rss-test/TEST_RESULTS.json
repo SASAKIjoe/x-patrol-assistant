@@ -8,6 +8,12 @@
     "rssBrowser": 12,
     "liveFeeds": 4
   },
-  "publicChecks": null,
+  "publicChecks": {
+    "smoke": "PASS",
+    "auto": "PASS",
+    "readback": "PASS",
+    "matched": 25,
+    "total": 25
+  },
   "physicalAndroid": "NOT_TESTED"
 }
