@@ -1,18 +1,19 @@
 {
-  "at": "2026-10-17T03:35:20.639Z",
-  "workCode": "SNS-WATCH-PWA-051-DRAG",
-  "taskId": "SNS_WATCH_BOX_PWA_TABLET_REORDER_V01",
+  "at": "2026-10-17T03:51:31.670Z",
+  "workCode": "SNS-WATCH-PWA-051-REFRESH",
+  "taskId": "SNS_WATCH_BOX_PWA_LIST_REFRESH_V01",
   "status": "AUTOMATED_QA_PASS",
   "physicalAndroid": "NOT_TESTED",
-  "humanGate": "HG-TABLET-DRAG-051",
+  "humanGate": "HG-REFRESH-051",
   "counts": {
     "unit": 67,
     "regression": 18,
     "compact": 21,
     "drag": 23,
-    "upgrade": 5
+    "upgrade": 5,
+    "refresh": 11
   },
-  "baselineCommit": "81664cb38aa1ebccec03f801b8e8c6cbd4905bcb",
+  "baselineCommit": "d5608abb8fb5dea03fc515d7064d7032d0cc29e6",
   "url": "https://sasakijoe.github.io/x-patrol-assistant/v051-ui-test/",
-  "total": 134
+  "total": 145
 }
