@@ -204,7 +204,7 @@ export function validateData(input) {
       if (text && (!/^[1-9][0-9]{0,19}$/.test(text) || BigInt(text) > 18446744073709551615n)) fail(label + 'を確認してください。');
       return text;
     };
-    rss.push({ handle: h, latestId: id(entry.latestId, 'RSS最新投稿ID'), ackId: id(entry.ackId, 'RSS確認済みID'), undoAckId: id(entry.undoAckId, 'RSS取消用ID'), fetchedAt: timestamp(entry.fetchedAt ?? '', 'RSS取得') });
+    rss.push({ handle: h, latestId: id(entry.latestId, 'RSS最新投稿ID'), ackId: id(entry.ackId, 'RSS確認済みID'), undoAckId: id(entry.undoAckId, 'RSS取消用ID'), fetchedAt: timestamp(entry.fetchedAt ?? '', 'RSS取得'), attemptedAt: timestamp(entry.attemptedAt ?? entry.fetchedAt ?? '', 'RSS照合') });
   }
   return { version: 5, genres, people, session, inbox, history, rss };
 }
@@ -378,6 +378,8 @@ export function setStatus(data, id, status) {
 }
 export function deletePerson(data, id) {
   const next = validateData(data); next.people = next.people.filter(p => p.id !== id);
+  const active=new Set(next.people.map(person=>person.handle));
+  next.rss=next.rss.filter(entry=>active.has(entry.handle));
   // Confirmations are retained even after removing a candidate.
   return next;
 }
