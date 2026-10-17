@@ -3,7 +3,7 @@
   "counts": {
     "unit": 67,
     "regression": 18,
-    "rssBrowser": 8,
+    "rssBrowser": 10,
     "liveFeeds": 3
   },
   "physicalAndroid": "NOT_TESTED"
