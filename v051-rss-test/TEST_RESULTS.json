@@ -1,12 +1,13 @@
 {
   "status": "AUTOMATED_QA_PASS",
   "counts": {
-    "unit": 67,
+    "unit": 74,
     "regression": 18,
-    "rssBrowser": 10,
-    "liveFeeds": 3,
-    "publicSmoke": 10,
-    "publicAuto": 1
+    "compact": 21,
+    "drag": 23,
+    "rssBrowser": 12,
+    "liveFeeds": 4
   },
+  "publicChecks": null,
   "physicalAndroid": "NOT_TESTED"
 }

@@ -1,21 +1,21 @@
 {
-  "at": "2026-10-17T05:33:02.810Z",
-  "workCode": "SNS-WATCH-PWA-054-RSS",
-  "taskId": "SNS_WATCH_BOX_PWA_RSS_PILOT_V01",
+  "at": "2026-10-17T06:02:06.934Z",
+  "workCode": "SNS-WATCH-PWA-055-ALLRSS",
+  "taskId": "SNS_WATCH_BOX_PWA_ALL_CANDIDATE_RSS_V01",
   "status": "AUTOMATED_QA_PASS",
-  "deployment": "PUBLIC_AUTO_UPDATE_VERIFIED",
-  "applicationCommit": "a9ebbfce98283c69bb6535aaf4492e71adb5563c",
-  "pagesRun": 39006386068,
-  "pullRequest": "https://github.com/SASAKIjoe/x-patrol-assistant/pull/2",
+  "deployment": "PENDING_PUBLIC",
+  "previousPublicCommit": "b6a2832d6ce7ef8ec36aa3fccd63315e890d9724",
+  "applicationCommit": null,
+  "pagesRun": null,
   "physicalAndroid": "NOT_TESTED",
-  "humanGate": "HG-RSS-054",
+  "humanGate": "HG-ALLRSS-055",
   "counts": {
-    "unit": 67,
+    "unit": 74,
     "regression": 18,
-    "rssBrowser": 10,
-    "liveFeeds": 3,
-    "publicSmoke": 10,
-    "publicAuto": 1
+    "compact": 21,
+    "drag": 23,
+    "rssBrowser": 12,
+    "liveFeeds": 4
   },
   "liveFeeds": [
     {
@@ -32,7 +32,13 @@
       "handle": "dusmel_clean",
       "latestId": "2111312988569497710",
       "success": true
+    },
+    {
+      "handle": "dabit3",
+      "latestId": "2111159753376497668",
+      "success": true
     }
   ],
-  "stagingUrl": "https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/"
+  "publicChecks": null,
+  "url": "https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/"
 }
