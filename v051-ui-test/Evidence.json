@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-17T03:05:30.319Z",
+  "workCode": "SNS-WATCH-PWA-051",
+  "taskId": "SNS_WATCH_BOX_PWA_MINIMAL_WATCHLIST_V01",
+  "status": "AUTOMATED_QA_PASS",
+  "physicalAndroid": "NOT_TESTED",
+  "humanGate": "HG-ANDROID-SNS-051",
+  "counts": {
+    "unit": 59,
+    "regression": 18,
+    "compact": 21
+  },
+  "baselineCommit": "7fe9296483059788dc2b756439f0b6e1145ffb7b",
+  "url": "https://sasakijoe.github.io/x-patrol-assistant/v051-ui-test/",
+  "total": 98,
+  "runtimeSHA256": {
+    "app.mjs": "8b34b3f92dd647dcaab9eb8de7814bcfcac34d52892bafb26be0fba217b6c62d",
+    "candidate-ui.mjs": "3345b1eaa2babda2a475dc7ee0ab1c9e00fe55fa05c18afae5c9945539b4bf52",
+    "core.mjs": "5a57c9567f593cc504cae18effccf6eede2a2916385d13115a7a9a00a4bba3b3",
+    "icon.svg": "c8e2d47b4e5acf0fa0c6c777b128a25b9b008a698ec50c1f232314948b6fcf2f",
+    "icon192.png": "d73d427f2229bfe0229a4357bff5d5bd84e036f22c762513172b2f504ee3e6c4",
+    "icon512.png": "226d66061cdeb2aaad947622148181223707ed9d6d939c5c123384f7b9540745",
+    "index.html": "c67b5698f80fb8f706d415d18d84d8ecea7a6df0719791179d2e28aa833271fe",
+    "manifest.webmanifest": "884d2c2a44ff2dd0c5396f8e5d37f2943be3ff7a74340973f9cf6466af601350",
+    "maskable512.png": "226d66061cdeb2aaad947622148181223707ed9d6d939c5c123384f7b9540745",
+    "migration.mjs": "626df656811e09366e6824680b4958efc48143bcda1c270d73d501adc0f14a2e",
+    "storage.mjs": "baaca7af42bc080f5d5b913bbf70f0d4a427952763af271cb6336fe3c455c2cf",
+    "style.css": "783dad19a4d082948bde8cb467b88d1c05852782f7b0ae5ca48c69ca16c111af",
+    "sw.js": "8597ebc4cbcb1b56c16a2085cdcc8087c4987678c1b675660c79c6c2eab9699e"
+  },
+  "evidencePackage": "SNSWatchPWA051V01.zip",
+  "notes": [
+    "This is a frozen release summary. Post-deployment SHA readback and delivery commit are in the full package RESULT.md and Evidence/.",
+    "Desktop Chromium with Android viewport is not physical Android evidence.",
+    "X navigation uses local mock fixtures. New-post detection is unavailable."
+  ]
+}
