@@ -3,8 +3,8 @@
 WORK_CODE: SNS-WATCH-PWA-054-RSS  
 TASK_ID: SNS_WATCH_BOX_PWA_RSS_PILOT_V01
 
-公開後の試験URL: https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/  
-現在はPRレビュー待ちで、このURLは404です。PRを反映して公開されるまでAndroid試験は開始しないでください。
+公開試験URL: https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/  
+GitHub Pagesでの表示と試験対象3人のRSS更新を確認しました。Android実機の確認はこれからです。
 
 対象は登録済みの `@tony_sunflower`、`@iyokanlove`、`@dusmel_clean`。未登録なら「?」内の「試験3人を登録」で追加できます。更新を押すとKeepの無料RSSを読み、投稿URLとRSSの投稿者が両方一致する本人投稿だけを比較します。初回は基準作りなので●を出しません。次回以降、より新しい投稿IDを受け取った人を●で表示し、絞り込みで「● 新着」を選べます。
 

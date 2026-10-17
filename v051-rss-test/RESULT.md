@@ -4,6 +4,6 @@
 
 初回基準・新着表示・✔・取り消し・再起動保持・取得失敗時の状態保持・JSON往復を確認しました。100人以上の登録と共有・BOX・巡回・保存は既存回帰試験でも確認しました。
 
-GitHub専用ブランチに25ファイルを追加し、既存ディレクトリの変更なしを確認。公開URLは現時点で404。PR反映後の公開読戻しとAndroid実機は未実施。Android Human Gate: NOT_TESTED。
+PR #1 を main に反映し、試験版の25ファイルだけを追加したことを確認。GitHub Pagesの公開用ビルド・配信は成功。公開ページの表示、読み込まれた依存ファイル、試験対象3人のRSS更新（3/3）を確認しました。Android実機は未実施。Android Human Gate: NOT_TESTED。
 
-公開後URL: https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/
+公開URL: https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/

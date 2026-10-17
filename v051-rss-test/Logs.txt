@@ -1,6 +1,8 @@
 SNS-WATCH-PWA-054-RSS
 Baseline commit: 2a94fda05869074a11e32e0169cfec322041cc69
 Unit 67; regression 18; RSS browser 8; live feeds 3
-Deployment: PR_PENDING_PUBLIC_URL_404
+Deployment: PUBLIC_PAGES_VERIFIED; PR #1 merged as b9fa750e252ec3cb1148a0c2d6ca58d87a22bc89
+Pages run: 39004846502; build and deploy success
+Public browser: page loaded; RSS refresh 3/3
 Physical Android: NOT_TESTED
 Detailed results: delivery tests/Evidence and tests/RSS_*_RESULTS.json
