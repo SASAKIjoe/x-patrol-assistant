@@ -1,0 +1,646 @@
+{
+  "release": "SNS-WATCH-007-V07RC1",
+  "taskId": "SNS_WATCH_BOX_V07_YOUTUBE_INTEGRATION_V01",
+  "generatedAt": "2026-10-16T13:07:00.703Z",
+  "finalVerdict": "HOLD_PUBLIC_VERIFY_AND_ANDROID",
+  "candidateStatus": "LOCAL_CANDIDATE",
+  "physicalAndroid": "NOT_TESTED",
+  "officialPass": false,
+  "unit": {
+    "tests": 31,
+    "passed": 31,
+    "source": "evidence/unit-tests.log"
+  },
+  "runtime": [
+    {
+      "path": "index.html",
+      "bytes": 8824,
+      "sha256": "bdb7ad0db3a9eb7c31795c2fcf341d622576efc95490be3382f9bc8e38f279e8"
+    },
+    {
+      "path": "style.css",
+      "bytes": 5985,
+      "sha256": "e07dbf94e115f560e16602aad909a5f3a9ef139787122d9a2a6066476e8e35c3"
+    },
+    {
+      "path": "app.mjs",
+      "bytes": 20544,
+      "sha256": "ca4a15d17d65b9f00400f5dec25fdf7b246e146abb5e6b4cb84907bb04b6737f"
+    },
+    {
+      "path": "core.mjs",
+      "bytes": 29806,
+      "sha256": "c02bc8a398ad314e5a1f16ca6f55f35acb10cc494e38e3822e7e1b56b2ca4d46"
+    },
+    {
+      "path": "storage.mjs",
+      "bytes": 10681,
+      "sha256": "ffb61f3cf2d3293110e944ceead92d44c8c969e65f8505168f5dfc7c0837504b"
+    },
+    {
+      "path": "legacy-v05.mjs",
+      "bytes": 25964,
+      "sha256": "801f95c908056d73fc412295b3cf209dae28a5070a55bd74391e0abb0859077e"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 1094,
+      "sha256": "b8f89bc231cd927e504a45980fca17b3bbed81c306124743b11ecc0c2dd9cd6b"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 3722,
+      "sha256": "4412977ab12be5f9398677838416b71d8dfd994511d4ffba1730cbde0a6689a8"
+    },
+    {
+      "path": "icon.svg",
+      "bytes": 501,
+      "sha256": "4c1f188c4646dbc15cb7f82a04d19beba45a17d52cb73d7cc3122ac2ea6ed16a"
+    },
+    {
+      "path": "icon192.png",
+      "bytes": 2432,
+      "sha256": "462b34a9b304e03420363694215ecd79898213371da3f2b653e869cd99a9afe9"
+    },
+    {
+      "path": "icon512.png",
+      "bytes": 7084,
+      "sha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854"
+    },
+    {
+      "path": "maskable512.png",
+      "bytes": 7084,
+      "sha256": "47ea6c1b3659c3d2103930f2f1f0eede5e84bb070be97b78f95bac41bdf51854"
+    }
+  ],
+  "baseline": {
+    "commit": "a52cf832f02f4d71a94e909b6c7af016f7eee608",
+    "tree": "8b8c24d0a21e0754136727a6181d511feb93ded3",
+    "scope": "Only new v07-test/ files; protected existing files compared by Git blob; V06 storage never accessed."
+  },
+  "localBrowser": {
+    "generatedAt": "2026-10-16T13:06:39.434Z",
+    "target": "http://127.0.0.1:59285/x-patrol-assistant/v07-test/",
+    "publicRun": false,
+    "status": "PASS_DESKTOP_ONLY",
+    "browser": "Headless desktop Chrome 155.0.8059.82",
+    "realAndroidDevice": "NOT_TESTED",
+    "AndroidInstallShareSheetWebAPK": "NOT_TESTED",
+    "forbidden": null,
+    "limitations": [
+      "Desktop Chrome at 390px verifies layout only; Android installation and OS share sheet require a real device.",
+      "Synthetic data is isolated in fresh browser contexts. No external SNS links are visited.",
+      "GET share parameters may reach static hosting before the scoped worker first controls the page."
+    ],
+    "results": [
+      {
+        "name": "launch and persistent V0.7 state",
+        "status": "PASS",
+        "milliseconds": 731
+      },
+      {
+        "name": "mixed X and YouTube URLs canonicalize and deduplicate by source identity",
+        "status": "PASS",
+        "milliseconds": 302
+      },
+      {
+        "name": "selected bulk registration creates video watchlist and X candidate without guessing channel",
+        "status": "PASS",
+        "milliseconds": 293
+      },
+      {
+        "name": "manual YouTube channel candidate saves supplied details only",
+        "status": "PASS",
+        "milliseconds": 245
+      },
+      {
+        "name": "video metadata and status editor persist safe literal text",
+        "status": "PASS",
+        "milliseconds": 308
+      },
+      {
+        "name": "genre create, edit, target counts and delete preserve candidates",
+        "status": "PASS",
+        "milliseconds": 336
+      },
+      {
+        "name": "morning and evening confirmation produce durable history",
+        "status": "PASS",
+        "milliseconds": 448
+      },
+      {
+        "name": "backup download matches state and invalid backup leaves stored data unchanged",
+        "status": "PASS",
+        "milliseconds": 520
+      },
+      {
+        "name": "confirmed JSON restore preserves original records, new work and pre-restore snapshot",
+        "status": "PASS",
+        "milliseconds": 379
+      },
+      {
+        "name": "shared title text and URL are received continuously without retaining caption or query",
+        "status": "PASS",
+        "milliseconds": 539
+      },
+      {
+        "name": "complete V0.7 scoped shell enables offline launch and share saving",
+        "status": "PASS",
+        "milliseconds": 268
+      },
+      {
+        "name": "all tabs fit 390px viewport without horizontal scrolling",
+        "status": "PASS",
+        "milliseconds": 499
+      },
+      {
+        "name": "concurrent cold share tabs preserve both writes",
+        "status": "PASS",
+        "milliseconds": 916
+      },
+      {
+        "name": "legacy root and V0.7 workers coexist without deleting unrelated caches",
+        "status": "PASS",
+        "milliseconds": 903
+      },
+      {
+        "name": "no uncaught browser errors throughout tested flows",
+        "status": "PASS",
+        "milliseconds": 0
+      }
+    ],
+    "errors": [],
+    "consoleErrors": [
+      {
+        "url": "http://127.0.0.1:59285/x-patrol-assistant/",
+        "message": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      }
+    ],
+    "responseFailures": [],
+    "localRequests": [
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/index.html",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/manifest.webmanifest",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon192.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon512.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/maskable512.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/",
+        "query": "?text=https%3A%2F%2Fyoutu.be%2FTESTvid0101"
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/",
+        "query": "?text=https%3A%2F%2Fx.com%2FConcurrentTest%2Fstatus%2F700000101"
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/index.html",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/manifest.webmanifest",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon192.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon512.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/maskable512.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/index.html",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/manifest.webmanifest",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/favicon.ico",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/index.html",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/style.css",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/app.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/core.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/storage.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/legacy-v05.mjs",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/manifest.webmanifest",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/sw.js",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon.svg",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon192.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/icon512.png",
+        "query": ""
+      },
+      {
+        "method": "GET",
+        "path": "/x-patrol-assistant/v07-test/maskable512.png",
+        "query": ""
+      }
+    ]
+  },
+  "storageBrowser": {
+    "generatedAt": "2026-10-16T13:06:09.644Z",
+    "status": "PASS_REAL_CHROME_STORAGE",
+    "browser": "Desktop Chrome 155.0.8059.82",
+    "syntheticDataOnly": true,
+    "realAndroidDevice": "NOT_TESTED",
+    "testsStorageWith": "Chrome native IndexedDB and localStorage; quota failure injected at IDBObjectStore.put",
+    "results": [
+      {
+        "name": "V05 IndexedDB migration reads a full synthetic record without changing any legacy store bytes",
+        "status": "PASS",
+        "milliseconds": 541
+      },
+      {
+        "name": "all four legacy localStorage formats copy once and remain byte-for-byte unchanged",
+        "status": "PASS",
+        "milliseconds": 319
+      },
+      {
+        "name": "databases-unavailable legacy probe aborts creation and still permits empty or localStorage initialization",
+        "status": "PASS",
+        "milliseconds": 257
+      },
+      {
+        "name": "corrupt legacy IDB fails closed despite valid lower-priority fallback and keeps all raw records",
+        "status": "PASS",
+        "milliseconds": 270
+      },
+      {
+        "name": "corrupt highest-priority localStorage remains untouched and does not fall through",
+        "status": "PASS",
+        "milliseconds": 294
+      },
+      {
+        "name": "corrupt active V0.7 does not reset and valid existing V0.7 ignores unrelated corrupt legacy",
+        "status": "PASS",
+        "milliseconds": 317
+      },
+      {
+        "name": "validation, thrown mutator, asynchronous mutator and quota failure roll back data and revision",
+        "status": "PASS",
+        "milliseconds": 394
+      },
+      {
+        "name": "simultaneous writers serialize twenty-four updates with no loss or revision gaps",
+        "status": "PASS",
+        "milliseconds": 444
+      },
+      {
+        "name": "explicit recovery of corrupt active state preserves forensic raw and leaves V05 unchanged",
+        "status": "PASS",
+        "milliseconds": 495
+      },
+      {
+        "name": "explicit recovery bypasses corrupt legacy only after preserving raw and leaves old database unchanged",
+        "status": "PASS",
+        "milliseconds": 503
+      },
+      {
+        "name": "invalid explicit recovery input leaves corrupt raw record unchanged",
+        "status": "PASS",
+        "milliseconds": 485
+      },
+      {
+        "name": "recovery UI retains corrupt raw, restores imported JSON and enables subsequent collection",
+        "status": "PASS",
+        "milliseconds": 1967
+      },
+      {
+        "name": "no uncaught errors in storage verification contexts",
+        "status": "PASS",
+        "milliseconds": 0
+      }
+    ],
+    "errors": []
+  },
+  "publicBrowser": null,
+  "githubReadback": null,
+  "pagesReadback": null,
+  "deployment": null,
+  "limitations": [
+    "Android installation, share sheet, WebAPK, continuous share and device restart are NOT_TESTED; see Android.md A01-A23.",
+    "390px is desktop layout validation, not an Android device.",
+    "GET share query can reach static host before scoped SW controls page.",
+    "No API metadata, scraping, existence checks, automatic like/follow, auth or telemetry.",
+    "YouTube aliases/channel ID/handle are not cross-resolved; identical normalized supplied URL only."
+  ],
+  "evidenceLocation": "Full scripts, raw logs and screenshots in delivery ZIP tests/ and evidence/. Synthetic data only."
+}
