@@ -36,7 +36,6 @@
   <section id="people" class="page card" aria-labelledby="peopleTitle">
     <div class="section-heading"><h2 id="peopleTitle">候補</h2><span id="peopleCount" class="count-pill"></span></div>
     <div class="candidate-toolbar">
-      <button id="refreshPeople" type="button" class="secondary" aria-label="試験対象3人の無料RSSを確認してリストを更新" aria-busy="false">↻ 更新</button>
       <span id="candidateRefreshStatus" class="muted" role="status">新着 −</span>
       <details id="candidateFilters" class="toolbar-disclosure"><summary aria-label="絞り込みと並べ替え" title="絞り込みと並べ替え">≡</summary><div class="candidate-filters">
         <label for="filterGenre">ジャンル<select id="filterGenre"></select></label>
@@ -46,7 +45,7 @@
         <div class="row candidate-tools"><button id="expandPeople" type="button" class="secondary">全展開</button><button id="collapsePeople" type="button" class="secondary">全閉</button><button id="returnToPerson" type="button" class="secondary" hidden>前の行へ</button></div>
         <details class="bulk-selection"><summary>巡回対象</summary><div class="row"><button id="selectPeople" type="button" class="secondary" data-write>表示中を全選択</button><button id="clearPeople" type="button" class="secondary" data-write>解除</button></div></details>
       </div></details>
-      <details id="candidateHelp" class="toolbar-disclosure"><summary aria-label="表示の意味と使い方" title="表示の意味と使い方">?</summary><div class="help-body"><p>● 無料RSSで、前回から新しい本人投稿を確認。初回更新は基準作りです。</p><p>試験対象は @tony_sunflower・@iyokanlove・@dusmel_clean の3人。登録済みの人だけ確認します。RSSは約1日ごとに更新され、最新20件以外は見逃す場合があります。</p><button id="addPilotPeople" type="button" class="secondary" data-write>試験3人を登録</button><p>すでに登録済みなら重複しません。ジャンルは未分類です。</p><p>✔ 人間がXの投稿を確認済み。いいねの記録ではありません。取り消しは詳細から。</p><p>− 新着未判定または確認記録なし。取得失敗も未判定です。未確認や時間の経過を新着とは表示しません。</p><p>行をタップで詳細。Xから戻ると、開いた行や表示位置を復元します。</p><p class="tablet-reorder-help">≡ をドラッグで並べ替え。</p><p>いいねはXでご自身で操作してください。</p></div></details>
+      <details id="candidateHelp" class="toolbar-disclosure"><summary aria-label="表示の意味と使い方" title="表示の意味と使い方">?</summary><div class="help-body"><p>試験対象を候補に入れるとRSSの基準を自動保存。以降はアプリを開く・戻ると自動確認します。登録時に新着●は付きません。取得失敗は未判定です。</p><p>対象は @tony_sunflower・@iyokanlove・@dusmel_clean の3人だけ。RSSは約1日ごと・直近20件です。PWAを閉じている間の常時巡回はできません。</p><button id="addPilotPeople" type="button" class="secondary" data-write>試験3人を登録</button><button id="refreshPeople" type="button" class="secondary" aria-label="登録済みの試験対象3人のRSSから今すぐ新着を確認" aria-busy="false">↻ 今すぐ確認</button><p>● RSSで前回より新しい本人投稿を確認。✔ 人間がXの投稿を確認済み。いいねの記録ではありません。取り消しは詳細から。</p><p>− 新着未判定または確認記録なし。取得失敗も未判定です。未確認や時間の経過を新着とは表示しません。</p><p>行をタップで詳細。Xから戻ると、開いた行や表示位置を復元します。</p><p class="tablet-reorder-help">≡ をドラッグで並べ替え。</p><p>いいねはXでご自身で操作してください。</p></div></details>
     </div>
     <p id="reorderInstructions" class="sr-only">タブレットでは左端のつまみをドラッグして並べ替えます。キーボードはつまみに移動し、Altと上下矢印で1行移動。Escapeでドラッグを取り消します。表示中の候補だけが移動します。</p>
     <p id="reorderStatus" class="sr-only" role="status" aria-live="polite"></p>

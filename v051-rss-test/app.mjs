@@ -10,7 +10,7 @@ const btn=(text,fn,cls='secondary')=>{const b=el('button',text,cls);b.type='butt
 const link=(url,text,cls='')=>{const a=el('a',text,cls);a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';a.addEventListener('click',()=>{const row=a.closest('[data-person-id]');snapshotView(row?.dataset.personId);if(row){ui.lastOpened[activePage]=row.dataset.personId;persistUi();updateReturnButton();}});return a;};
 const label=(text,input)=>{const n=el('label',text);n.append(input);return n;};
 const check=(text,checked,fn)=>{const n=el('label','','pick'),c=el('input');c.type='checkbox';c.checked=checked;c.addEventListener('change',()=>Promise.resolve(fn(c.checked)).catch(e=>{c.checked=!c.checked;notice(e.message,true);}));n.append(c,document.createTextNode(text));return n;};
-let data=null,revision=-1,store,pendingRestore=null,restoreToken=0,queue=Promise.resolve(),installPrompt=null,manualRefreshPending=false;
+let data=null,revision=-1,store,pendingRestore=null,restoreToken=0,queue=Promise.resolve(),installPrompt=null,manualRefreshPending=false,baselinePending=false,lastAutoAttemptAt=0;
 const handleDrafts=new Map();
 const personDrafts=new Map(),UI_KEY='xpatrol-v051-rss-test:view:'+location.pathname,PAGES=['inbox','people','genres','patrol','backup'];
 let ui={page:'people',genre:'',status:'',freshness:'',sort:'priority',expanded:[],patrolExpanded:[],filters:false,help:false,positions:{},lastOpened:{}},activePage='people',uiReady=false,renderingPeople=false;
@@ -38,20 +38,38 @@ function notice(text,error=false){$('notice').textContent=text;$('notice').class
 function page(id,{initial=false}={}){if(!PAGES.includes(id))return;reorder.cancel();if(!initial&&id===activePage)return;if(!initial)snapshotView();cancelPositionRestore();activePage=id;document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==id);document.querySelectorAll('[data-page]').forEach(b=>{if(b.dataset.page===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});ui.page=id;persistUi();if(uiReady)restorePosition(ui.positions[id]||{y:0,id:'',offset:0});}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
 function save(fn,message=''){
+  let newlyRegistered=false;
   const work=queue.catch(()=>{}).then(async()=>{
     if(!store||!data)throw new Error('保存データを読み込めません。保存・設定を確認してください。');
-    try{const r=await store.update(fn);data=r.data;revision=r.revision;render();channel?.postMessage('changed');$('storageStatus').textContent='この端末に保存済み';if(message)notice(message);return r.result;}
+    try{const before=new Set(data.people.map(person=>person.handle)),r=await store.update(fn);data=r.data;revision=r.revision;newlyRegistered=PILOT_HANDLES.some(handle=>!before.has(handle)&&data.people.some(person=>person.handle===handle));render();channel?.postMessage('changed');$('storageStatus').textContent='この端末に保存済み';if(message)notice(message);return r.result;}
     catch(e){$('storageStatus').textContent='保存できませんでした。入力を残しています。';throw e;}
-  });queue=work;return work;
+  });queue=work;void work.then(()=>{if(newlyRegistered)void ensurePilotBaselines();}).catch(()=>{});return work;
 }
 async function refresh(position,intent){if(!store||document.visibilityState==='hidden')return false;try{await queue.catch(()=>{});const r=await store.load();const target=position&&intent?.sequence===restoreSequence&&intent.page===activePage&&document.visibilityState!=='hidden'?position:undefined;if(r.revision!==revision){data=r.data;revision=r.revision;render(target);}else if(target)restorePosition(target);return true;}catch(e){notice('保存領域の再読込に失敗しました：'+e.message,true);return false;}}
-function updateRefreshButton(){const button=$('refreshPeople');button.disabled=!store||manualRefreshPending;button.setAttribute('aria-busy',String(manualRefreshPending));button.textContent=manualRefreshPending?'↻ 更新中':'↻ 更新';}
-async function refreshPeople(){
-  if(manualRefreshPending)return false;
+function addMissingPilotPeople(current){for(const handle of PILOT_HANDLES)if(!current.people.some(person=>person.handle===handle))current.people.push({id:crypto.randomUUID(),handle,genres:[],note:'',status:STATES[0],selected:true,checked:'',checkedAt:'',posts:[]});return current;}
+function updateRefreshButton(){const button=$('refreshPeople'),hasTarget=PILOT_HANDLES.some(handle=>data?.people.some(person=>person.handle===handle));button.disabled=!store||!hasTarget||manualRefreshPending||baselinePending;button.setAttribute('aria-busy',String(manualRefreshPending||baselinePending));button.textContent=baselinePending?'↻ 準備中':manualRefreshPending?'↻ 確認中':'↻ 今すぐ確認';button.setAttribute('aria-label',baselinePending?'登録した候補のRSS初回基準を保存中':'登録済みの試験対象3人のRSSから今すぐ新着を確認');}
+async function ensurePilotBaselines(){
+  if(baselinePending||!store||!data)return;
+  const missing=PILOT_HANDLES.filter(handle=>data.people.some(person=>person.handle===handle)&&!feedState(data,handle).known);
+  if(!missing.length)return;
+  baselinePending=true;lastAutoAttemptAt=Date.now();updateRefreshButton();
+  try{
+    const attempts=await Promise.allSettled(missing.map(async handle=>({handle,latestId:await readFeed(handle)})));
+    const found=attempts.filter(result=>result.status==='fulfilled'&&result.value.latestId).map(result=>result.value);
+    if(found.length){await queue.catch(()=>{});const next=await store.update(current=>applyFeedResults(current,found));data=next.data;revision=next.revision;render();channel?.postMessage('changed');}
+    notice(`RSS基準 ${found.length}/${missing.length}${found.length<missing.length?' · −あり':''}`);
+  }catch(error){notice('RSS基準は未判定です。新着確認を再試行してください。',true);}
+  finally{baselinePending=false;updateRefreshButton();}
+}
+function autoCheckDue(){const handles=PILOT_HANDLES.filter(handle=>data?.people.some(person=>person.handle===handle));return handles.length>0&&handles.every(handle=>feedState(data,handle).known)&&handles.some(handle=>{const at=data.rss.find(item=>item.handle===handle)?.fetchedAt;return !at||Date.now()-Date.parse(at)>=6*60*60*1000;});}
+function maybeAutoSync(){if(document.visibilityState==='hidden'||!store||!data||baselinePending||manualRefreshPending||Date.now()-lastAutoAttemptAt<30*60*1000)return;const needsBaseline=PILOT_HANDLES.some(handle=>data.people.some(person=>person.handle===handle)&&!feedState(data,handle).known);if(!needsBaseline&&!autoCheckDue())return;lastAutoAttemptAt=Date.now();if(needsBaseline)void ensurePilotBaselines();else void refreshPeople({automatic:true});}
+async function refreshPeople(options={}){
+  if(manualRefreshPending||baselinePending)return false;
+  const automatic=options.automatic===true;
   const button=$('refreshPeople');
   if(!store){button.dataset.refreshState='error';notice('保存領域を読み込めません。保存画面を確認してください。',true);return false;}
   reorder.cancel();const position=uiReady?capturePosition():null,pageId=activePage,intent=userViewIntent;
-  manualRefreshPending=true;button.dataset.refreshState='loading';updateRefreshButton();
+  manualRefreshPending=true;lastAutoAttemptAt=Date.now();button.dataset.refreshState='loading';updateRefreshButton();
   try{
     await queue.catch(()=>{});const loaded=await store.load();data=loaded.data;revision=loaded.revision;
     const handles=PILOT_HANDLES.filter(handle=>data.people.some(person=>person.handle===handle));
@@ -61,11 +79,11 @@ async function refreshPeople(){
     if(found.length){const next=await store.update(current=>applyFeedResults(current,found));data=next.data;revision=next.revision;channel?.postMessage('changed');}
     const keepPosition=pageId===activePage&&intent===userViewIntent&&document.visibilityState!=='hidden';
     render(keepPosition?position:undefined);$('recovery').hidden=true;$('storageStatus').textContent='この端末に保存済み';if(!uiReady)activateUi(activePage);snapshotView();
-    button.dataset.refreshState=failed?'partial':'success';notice(handles.length?`RSS ${found.length}/${handles.length}${failed?' · −あり':''}`:'リストを更新 · RSS対象なし');return true;
-  }catch(error){button.dataset.refreshState='error';notice('更新できませんでした：'+(error.message||'もう一度お試しください。'),true);return false;}
+    button.dataset.refreshState=failed?'partial':'success';if(!automatic||failed)notice(handles.length?`RSS ${found.length}/${handles.length}${failed?' · −あり':''}`:'RSS対象なし',Boolean(failed));return true;
+  }catch(error){button.dataset.refreshState='error';notice('新着を確認できませんでした：'+(error.message||'もう一度お試しください。'),true);return false;}
   finally{manualRefreshPending=false;updateRefreshButton();}
 }
-function resume(){if(!uiReady||document.visibilityState==='hidden')return;const position=ui.positions[activePage]&&{...ui.positions[activePage]};restorePosition(position);refresh(position,{sequence:restoreSequence,page:activePage});}
+function resume(){if(!uiReady||document.visibilityState==='hidden')return;const position=ui.positions[activePage]&&{...ui.positions[activePage]};restorePosition(position);void refresh(position,{sequence:restoreSequence,page:activePage}).then(maybeAutoSync);}
 window.addEventListener('focus',resume);window.addEventListener('pageshow',resume);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resume();else{clearTimeout(scrollSaveTimer);cancelPositionRestore();snapshotView();}});
 function options(id,all=false,unclassified=false){const s=$(id),old=s.value;s.replaceChildren();if(all)s.add(new Option('すべて',''));if(unclassified)s.add(new Option('未分類','__none'));for(const g of data.genres)s.add(new Option(g.name,g.id));if([...s.options].some(o=>o.value===old))s.value=old;}
 function genreNames(ids){return ids.map(id=>data.genres.find(g=>g.id===id)?.name).filter(Boolean).join('・')||'未分類';}
@@ -136,7 +154,7 @@ for(const [id,key] of [['candidateFilters','filters'],['candidateHelp','help']])
 for(const id of ['filterGenre','filterStatus','patrolFreshness','sortPeople'])on(id,'change',()=>{candidateControlsIntent++;userViewIntent++;readCandidateControls();renderPeople();snapshotView();});
 $('filterStatus').add(new Option('すべて',''));for(const s of STATES)$('filterStatus').add(new Option(s,s));
 on('refreshPeople','click',refreshPeople);
-on('addPilotPeople','click',()=>save(d=>{for(const handle of PILOT_HANDLES)if(!d.people.some(p=>p.handle===handle))d.people.push({id:crypto.randomUUID(),handle,genres:[],note:'',status:STATES[0],selected:true,checked:'',checkedAt:'',posts:[]});return d;},'試験対象を登録しました。'));
+on('addPilotPeople','click',()=>save(addMissingPilotPeople,'試験対象を登録しました。'));
 for(const [id,open] of [['expandPeople',true],['collapsePeople',false]])on(id,'click',()=>{const position=capturePosition();if(open)for(const p of visiblePeople())expandedPeople.add(p.id);else expandedPeople.clear();persistUi();renderPeople(position);});
 on('returnToPerson','click',()=>{const id=ui.lastOpened.people,row=rowFor(id,'people');if(!row){notice('前に開いた候補は現在の絞り込みに含まれていません。条件を変更してください。');return;}const top=document.querySelector('.tabs').getBoundingClientRect().bottom+8;restorePosition({id,y:scrollY,offset:top});row.querySelector('summary').focus({preventScroll:true});});
 on('selectPeople','click',()=>{const ids=visiblePeople().map(x=>x.id);return save(d=>setSelected(d,ids,true));});on('clearPeople','click',()=>{const ids=visiblePeople().map(x=>x.id);return save(d=>setSelected(d,ids,false));});
@@ -146,7 +164,7 @@ function download(value,name){const u=URL.createObjectURL(new Blob([value],{type
 on('export','click',async()=>{await queue.catch(()=>{});const r=await store.load();data=r.data;revision=r.revision;render();download(encodeBackup(data),'SNSWatchPWA051Backup.json');});
 function cancelRestore(){restoreToken++;pendingRestore=null;$('restorePreview').hidden=true;$('import').value='';}
 on('cancelRestore','click',cancelRestore);on('import','change',async e=>{const token=++restoreToken;pendingRestore=null;$('restorePreview').hidden=true;const f=e.target.files[0];if(!f)return;if(f.size>LIMITS.bytes)throw new Error('JSONは10MB以内にしてください。');const clean=decodeBackup(await f.text());if(token!==restoreToken)return;pendingRestore=clean;$('restoreSummary').textContent='ジャンル '+clean.genres.length+'個 / 候補 '+clean.people.length+'人 / 収集BOX '+clean.inbox.length+'件 / 履歴 '+clean.history.length+'件';$('restorePreview').hidden=false;});
-on('confirmRestore','click',async()=>{const target=pendingRestore,token=restoreToken;if(!target)return;await queue.catch(()=>{});if(token!==restoreToken)return;const r=await store.replace(target);data=r.data;revision=r.revision;handleDrafts.clear();personDrafts.clear();render();$('recovery').hidden=true;$('storageStatus').textContent='この端末に保存済み';activateUi('backup');cancelRestore();channel?.postMessage('changed');notice('バックアップをRSS試験領域へ復元しました。');});
+on('confirmRestore','click',async()=>{const target=pendingRestore,token=restoreToken;if(!target)return;await queue.catch(()=>{});if(token!==restoreToken)return;const r=await store.replace(target);data=r.data;revision=r.revision;handleDrafts.clear();personDrafts.clear();render();$('recovery').hidden=true;$('storageStatus').textContent='この端末に保存済み';activateUi('backup');cancelRestore();channel?.postMessage('changed');notice('バックアップをRSS試験領域へ復元しました。');void ensurePilotBaselines();});
 on('exportRaw','click',async()=>download(JSON.stringify(await store.raw(),null,2),'SNSWatchPWA051RSSRecovery.json'));on('newData','click',async()=>{if(!confirm('RSS試験の保存領域を初期化しますか？必要なら先にJSONを保存してください。旧版の保存領域は残ります。'))return;await queue.catch(()=>{});const r=await store.replace(defaults());data=r.data;revision=r.revision;handleDrafts.clear();personDrafts.clear();$('recovery').hidden=true;$('storageStatus').textContent='この端末に保存済み';render();activateUi('backup');channel?.postMessage('changed');notice('新しいRSS試験データを保存しました。');});
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('install').hidden=false;});on('install','click',async()=>{if(!installPrompt)return;await installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('install').hidden=true;});on('persistent','click',async()=>{const granted=await navigator.storage?.persist?.();notice(granted?'この端末での保存保護が許可されました。バックアップも保存してください。':'保存保護は許可されませんでした。定期的にバックアップしてください。');});
 async function setupPwa(){
@@ -166,3 +184,5 @@ catch(e){data=null;render();$('storageStatus').textContent='保存領域を読�
 activateUi(hasShare?'inbox':ui.page);
 if(hasShare&&data){try{const r=await save(d=>collectPosts(d,shared,{source:'share'}),'共有を受信しました。収集結果を確認してください。');results(r.results);if(!(r.results||[]).some(x=>x.valid===false)){$('postUrls').value='';$('manualImport').open=false;}}catch(e){notice('共有を保存できませんでした。手動取込欄の内容を確認して再送してください：'+e.message,true);}}
 setupPwa();
+maybeAutoSync();
+setInterval(maybeAutoSync,30*60*1000);
