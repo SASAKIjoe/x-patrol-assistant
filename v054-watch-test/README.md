@@ -26,3 +26,7 @@ GitHub source dependencies and JavaScript parsing checked. Unit-level baseline/n
 ## Guardrails
 
 No automated liking/following. No X scraping, password/token storage, paid server, or background network polling. The latest original codebases in sibling folders are preserved.
+
+## 2026-10-24: One-file migration
+
+In the Save tab, **📦 まとめて保存** exports candidates, genres, patrol/RSS history, and separate likes/follows analytics in **one JSON** (`sns-watch-box-combined-v1`). The new organization's site `https://iris-watch-2026.github.io/` has **📂 まとめて復元** and previews counts before modifying local browser data. Both individual JSON backup methods remain available. No export uploads data; keep backups private. Android end-to-end transfer is unverified.
