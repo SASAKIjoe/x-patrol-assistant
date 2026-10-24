@@ -89,3 +89,9 @@ Append each release's source paths, proven tests, current blockers, data format,
 - Bumped `v054-watch-test/sw.js` cache version to `20261024-drag-dot-v2`.
 - GitHub readback and JS syntax PASS. Android actual drag, scroll, saved order, cache refresh not yet tested (Human Gate).
 - No other versions were modified.
+
+## 2026-10-24 — V054 Android long-press still FAILED; sort-mode repair
+- User reports long-press drag did NOT work on Android. Prior test did not establish real-device success. Hypothesis: browser touch scrolling consumes gesture. Do not call root cause confirmed without Android evidence.
+- Updated `v054-watch-test/reorder-ui.mjs` to provide `setMode()` explicit reorder mode. Existing ordinary long-press remains; in reorder mode touching a card begins pointer drag directly and blocks page touch scrolling only on candidate cards.
+- Added `⇅ 並べ替え` / `✓ 完了` toggle near candidate new-post status, mode CSS, SW cache version `20261024-drag-mode-v3`.
+- Source readback and JS syntax PASS, real Android drag and persisted order UNVERIFIED. Keep existing data and old versions intact. Need Android Human Gate: open new version, tap sort mode, drag one tile, tap done, reload, ensure order retained; test normal scroll when mode disabled.
