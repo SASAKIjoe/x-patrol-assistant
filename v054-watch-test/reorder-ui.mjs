@@ -99,7 +99,7 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
   document.addEventListener('touchcancel',()=>{if(gesture?.type==='touch')cancel()});
   // Mouse/pen: hold to reorder instead of dragging on the first movement.
   root.addEventListener('pointerdown',e=>{
-    if((e.pointerType==='touch'&&!mode)||e.button!==0||blocked(e.target))return;
+    if((e.pointerType==='touch'&&!mode)||e.button!==0||(!mode&&blocked(e.target)))return;
     const row=tile(e.target);if(row&&root.contains(row)){beginCandidate(row,e.clientX,e.clientY,'pointer');if(mode){clearTimer();begin();try{root.setPointerCapture(e.pointerId)}catch{}}}
   });
   document.addEventListener('pointermove',e=>{
