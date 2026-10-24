@@ -44,8 +44,6 @@ export function createStore(options = {}) {
       tx.onabort = () => reject(tx.error ?? new Error('保存領域を読み取れません。'));
     });
     if (existing !== undefined) return null;
-    const priorUi = await readV05Snapshot(factory, V051_KEY);
-    if (priorUi) return { ...priorUi, source: 'v051-ui-idb' };
     const rssSource = await new Promise(resolve=>{
   let request;
   try { request=factory.open(RSS_SOURCE_KEY); }catch { resolve(null); return; }
@@ -59,6 +57,8 @@ export function createStore(options = {}) {
   };
 });
     if(rssSource)return rssSource;
+    const priorUi = await readV05Snapshot(factory, V051_KEY);
+    if (priorUi) return { ...priorUi, source: 'v051-ui-idb' };
     const snapshot = await readV05Snapshot(factory);
     if (snapshot) return snapshot;
     const storage = legacyStorage();
