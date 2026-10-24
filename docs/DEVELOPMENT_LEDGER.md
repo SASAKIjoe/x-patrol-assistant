@@ -66,3 +66,15 @@ No work is currently claimed completed for this consolidation.
 ## Maintenance policy
 
 Append each release's source paths, proven tests, current blockers, data format, and known regressions immediately after work. This ledger is the source-of-truth index, but actual GitHub implementation remains authoritative. A new chat cannot be guaranteed to automatically open this file; at the START of every SNS WATCH BOX development request, explicitly fetch/read this ledger.
+
+
+## 2026-10-24 — v054-watch-test integration attempt
+
+- URL: https://sasakijoe.github.io/x-patrol-assistant/v054-watch-test/
+- Base: **v051-rss-test** (not the incomplete v053). Independently copied core/storage/migration/candidate UI/reorder UI/RSS and included the existing RSS scanning and native PWA X-share.
+- New: 3-column tablet candidate cards; whole-surface tap for details, tiny arrow hidden; analytics sidecar to store manual-like +1/-1 timestamps, follower confirmation date, registration-to-follow confirmation interval, totals/conversion percent. RSS verified new-post status is shown as **New**, unverified **−**, human checked **✔**. Real RSS check button is visible next to the status.
+- Store: new IndexedDB `xpatrol-v054-watch-test` seeded non-destructively from `xpatrol-v051-rss-test` before older version fallback; independent localStorage `sns-watch-box-v054-analytics` migrates from prior v053/v052 analytics when available. No earlier DB or source directory overwritten.
+- GitHub source QA: 13/13 required files confirmed, 9 local module imports resolved, JS syntax checks pass, RSS baseline/new-ID + due scheduling pure logic checks pass. A synthetic URL ingestion test in the limited tool runtime could not validate browser URL APIs; not an application failure finding.
+- NOT YET VERIFIED: actual Pages browser runtime, Android installed PWA + X share-to-inbox, RSS access from Android and third-party feed success, backup/restore, scroll return, complete interactivity across real users. **HOLD — do not claim formally complete without Android test**.
+- External Keep RSS has no uptime guarantee and may be restricted or changed; feed update cadence is not the same as checking frequency.
+- Future work: browser/Android E2E with inherited user dataset; fix discovered failures only in v054 test path, update cache version when code changes, and only then consider promotion.
