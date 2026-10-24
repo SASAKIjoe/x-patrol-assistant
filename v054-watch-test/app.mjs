@@ -155,6 +155,7 @@ for(const [id,key] of [['candidateFilters','filters'],['candidateHelp','help']])
 for(const id of ['filterGenre','filterStatus','patrolFreshness','sortPeople'])on(id,'change',()=>{candidateControlsIntent++;userViewIntent++;readCandidateControls();renderPeople();snapshotView();});
 $('filterStatus').add(new Option('すべて',''));for(const s of STATES)$('filterStatus').add(new Option(s,s));
 on('refreshPeople','click',()=>scanFeeds({force:true}));
+on('sortModeToggle','click',()=>{const enabled=reorder.setMode(!reorder.mode);const b=$('sortModeToggle');b.textContent=enabled?'✓ 完了':'⇅ 並べ替え';b.setAttribute('aria-pressed',String(enabled));});
 on('addPilotPeople','click',()=>save(addMissingPilotPeople,'試験対象を登録しました。'));
 for(const [id,open] of [['expandPeople',true],['collapsePeople',false]])on(id,'click',()=>{const position=capturePosition();if(open)for(const p of visiblePeople())expandedPeople.add(p.id);else expandedPeople.clear();persistUi();renderPeople(position);});
 on('returnToPerson','click',()=>{const id=ui.lastOpened.people,row=rowFor(id,'people');if(!row){notice('前に開いた候補は現在の絞り込みに含まれていません。条件を変更してください。');return;}const top=document.querySelector('.tabs').getBoundingClientRect().bottom+8;restorePosition({id,y:scrollY,offset:top});row.querySelector('summary').focus({preventScroll:true});});
