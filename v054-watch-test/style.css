@@ -56,3 +56,9 @@ body .reorder-ghost{border:1px solid #168b5d!important;border-radius:10px!import
 #personList.pick-reorder-mode .person-item{cursor:pointer;touch-action:pan-y!important}
 #personList.pick-reorder-mode .person-item.is-picked{border:2px solid #17845c!important;background:#e6f6ee!important;outline:2px solid #17845c;outline-offset:1px}
 #personList.pick-reorder-mode .person-item.is-picked::after{content:'移動先をタップ';font-size:10px;color:#0d6745;padding:2px}
+
+/* Subtle ordinal number; changes with visible ordering without altering saved IDs. */
+#personList .card-index{font-size:10px;color:#7c8790;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;order:0;line-height:1.2}
+#personList .candidate-handle{order:1}
+#personList .candidate-genre{order:2}
+#personList .patrol-chip{order:3}
