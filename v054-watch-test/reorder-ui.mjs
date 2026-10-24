@@ -6,7 +6,7 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
   const rows=()=>[...root.children].filter(x=>x.dataset.personId);
   const ids=()=>rows().map(x=>x.dataset.personId);
   const same=(a,b)=>a.length===b.length&&a.every((v,i)=>v===b[i]);
-  const blocked=target=>Boolean(target.closest('button,a,input,select,textarea,label,[contenteditable],.person-body,summary::-webkit-details-marker'));
+  const blocked=target=>Boolean(target.closest('button,a,input,select,textarea,label,[contenteditable],.person-body'));
   const tile=target=>target.closest('[data-person-id]');
   const clearTimer=()=>{if(holdTimer){clearTimeout(holdTimer);holdTimer=0}};
   const rollback=g=>{if(g?.nodes?.every(n=>n.parentElement===root))root.append(...g.nodes)};
@@ -48,12 +48,10 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
     g.ghost.style.transform='translate3d('+(x-g.startX)+'px,'+(y-g.startY)+'px,0)';
     const target=pointTarget(x,y);
     if(!target||target===g.row)return;
-    const original=g.originalIds.indexOf(g.row.dataset.personId);
     const targetIndex=ids().indexOf(target.dataset.personId);
     const sourceIndex=ids().indexOf(g.row.dataset.personId);
     if(sourceIndex<targetIndex)root.insertBefore(g.row,target.nextSibling);
     else root.insertBefore(g.row,target);
-    void original;
     if(y<85)window.scrollBy(0,-9);
     else if(y>innerHeight-70)window.scrollBy(0,9);
   }
@@ -82,7 +80,7 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
   },{passive:true});
   document.addEventListener('touchmove',e=>{
     const g=gesture;if(!g||g.type!=='touch')return;
-    const t=[...e.touches].find(t=>true);
+    const t=e.touches[0];
     if(!t){cancel();return}
     if(!g.started){
       if(Math.hypot(t.clientX-g.startX,t.clientY-g.startY)>MOVE_CANCEL_PX)cancel();
