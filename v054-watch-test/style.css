@@ -46,3 +46,8 @@ body.watch-dragging{user-select:none}
 body .reorder-ghost{border:1px solid #168b5d!important;border-radius:10px!important;box-shadow:0 10px 24px #0002!important;background:#fff!important;overflow:hidden!important;pointer-events:none!important;opacity:.94!important;z-index:9999!important;display:block!important}
 #personList .person-item{user-select:none;-webkit-user-select:none}
 #personList .person-body{user-select:text;-webkit-user-select:text}
+
+/* Explicit reorder mode removes Android touch-scrolling conflict only while active. */
+#personList.reorder-mode .person-item{touch-action:none!important;cursor:grab;user-select:none;-webkit-user-select:none}
+#personList.reorder-mode .person-item:active{cursor:grabbing}
+#sortModeToggle[aria-pressed="true"]{background:#205a4b;color:#fff;border-color:#205a4b}
