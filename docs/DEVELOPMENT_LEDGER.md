@@ -95,3 +95,10 @@ Append each release's source paths, proven tests, current blockers, data format,
 - Updated `v054-watch-test/reorder-ui.mjs` to provide `setMode()` explicit reorder mode. Existing ordinary long-press remains; in reorder mode touching a card begins pointer drag directly and blocks page touch scrolling only on candidate cards.
 - Added `⇅ 並べ替え` / `✓ 完了` toggle near candidate new-post status, mode CSS, SW cache version `20261024-drag-mode-v3`.
 - Source readback and JS syntax PASS, real Android drag and persisted order UNVERIFIED. Keep existing data and old versions intact. Need Android Human Gate: open new version, tap sort mode, drag one tile, tap done, reload, ensure order retained; test normal scroll when mode disabled.
+
+## 2026-10-24 — Android drag failure -> two-tap sorting fallback
+- User tested V054 long-press and dedicated drag mode: both failed to move cards on Android. Do not claim Android drag PASS.
+- Updated V054 reorder engine to expose `setSelectionMode()` and `commitOrder()`, and app.js/mjs handling of `⇅ 並べ替え`: tap source tile (highlight), then tap destination tile (insert before), persist original-to-new visible ID order through the existing safe `reorderPeople` callback, set manual sorting. No reliance on touch drag.
+- Original card opening and action buttons work when sorting mode is OFF. Old experimental drag remains outside the reliable selection mode. CSS highlights chosen tile.
+- Updated index assets `rev=tapsort4`, SW cache `20261024-tap-sort-v4` to avoid stale PWA JS, GitHub fetch/readback & JS syntax PASS.
+- Android two-tap move, saved order and scrolling need real-device confirmation; not yet a full PASS. Existing data and earlier versions preserved.
