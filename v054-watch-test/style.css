@@ -51,3 +51,8 @@ body .reorder-ghost{border:1px solid #168b5d!important;border-radius:10px!import
 #personList.reorder-mode .person-item{touch-action:none!important;cursor:grab;user-select:none;-webkit-user-select:none}
 #personList.reorder-mode .person-item:active{cursor:grabbing}
 #sortModeToggle[aria-pressed="true"]{background:#205a4b;color:#fff;border-color:#205a4b}
+
+/* Two-tap sorting avoids touch-drag conflicts on Android. */
+#personList.pick-reorder-mode .person-item{cursor:pointer;touch-action:pan-y!important}
+#personList.pick-reorder-mode .person-item.is-picked{border:2px solid #17845c!important;background:#e6f6ee!important;outline:2px solid #17845c;outline-offset:1px}
+#personList.pick-reorder-mode .person-item.is-picked::after{content:'移動先をタップ';font-size:10px;color:#0d6745;padding:2px}
