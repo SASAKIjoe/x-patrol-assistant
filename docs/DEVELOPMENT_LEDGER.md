@@ -102,3 +102,7 @@ Append each release's source paths, proven tests, current blockers, data format,
 - Original card opening and action buttons work when sorting mode is OFF. Old experimental drag remains outside the reliable selection mode. CSS highlights chosen tile.
 - Updated index assets `rev=tapsort4`, SW cache `20261024-tap-sort-v4` to avoid stale PWA JS, GitHub fetch/readback & JS syntax PASS.
 - Android two-tap move, saved order and scrolling need real-device confirmation; not yet a full PASS. Existing data and earlier versions preserved.
+
+## 2026-10-24 — Numbered candidate cards
+- User wanted instant visual count of tiles. In v054-watch-test added a small 01,02,03... ordinal to each visible candidate tile based on current displayed order, including after manual reorder/filter. Ordinal is presentation only, not a persistent account ID. Kept compact 3-column layout and data unchanged.
+- CSS card-index, cache key cardnumbers-v6, HTML asset rev=cardnumbers6. GitHub files read back; Android display untested.
