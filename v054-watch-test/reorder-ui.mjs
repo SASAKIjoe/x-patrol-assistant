@@ -1,95 +1,135 @@
-// Touch dragging is limited to the handle so ordinary row gestures still scroll.
+// Candidate grid: long-press card surface for 450ms, then drag to reorder.
+// Normal swipes scroll; interactive controls never initiate drag.
 export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}}){
-  const tablet=matchMedia('(min-width:600px)');
-  let gesture=null,pending=false,frame=0,suppressClickUntil=0;
-  const rows=()=>[...root.children].filter(row=>row.dataset.personId);
-  const ids=()=>rows().map(row=>row.dataset.personId);
-  const same=(a,b)=>a.length===b.length&&a.every((id,i)=>id===b[i]);
-  function focusHandle(id){const row=rows().find(row=>row.dataset.personId===id);row?.querySelector('.reorder-handle')?.focus({preventScroll:true});}
-  function finish({rollback=false}={}){
-    const current=gesture;if(!current)return null;gesture=null;
-    cancelAnimationFrame(frame);frame=0;
-    if(rollback&&current.nodes.every(node=>node.parentElement===root))root.append(...current.nodes);
-    current.row.classList.remove('is-drag-source');current.handle.removeAttribute('aria-pressed');
-    current.ghost?.remove();root.classList.remove('is-reordering');
-    try{if(root.hasPointerCapture(current.pointerId))root.releasePointerCapture(current.pointerId);}catch{}
-    if(current.started){suppressClickUntil=performance.now()+800;onDragChange(false);}
-    return current;
+  const HOLD_MS=450, MOVE_CANCEL_PX=10;
+  let gesture=null,holdTimer=0,pending=false,suppressUntil=0;
+  const rows=()=>[...root.children].filter(x=>x.dataset.personId);
+  const ids=()=>rows().map(x=>x.dataset.personId);
+  const same=(a,b)=>a.length===b.length&&a.every((v,i)=>v===b[i]);
+  const blocked=target=>Boolean(target.closest('button,a,input,select,textarea,label,[contenteditable],.person-body,summary::-webkit-details-marker'));
+  const tile=target=>target.closest('[data-person-id]');
+  const clearTimer=()=>{if(holdTimer){clearTimeout(holdTimer);holdTimer=0}};
+  const rollback=g=>{if(g?.nodes?.every(n=>n.parentElement===root))root.append(...g.nodes)};
+  function end(restore=false){
+    clearTimer();
+    const g=gesture;gesture=null;
+    if(!g)return null;
+    if(restore)rollback(g);
+    g.row.classList.remove('is-drag-source');
+    root.classList.remove('is-reordering');
+    document.body.classList.remove('watch-dragging');
+    if(g.ghost)g.ghost.remove();
+    if(g.started){suppressUntil=performance.now()+1000;onDragChange(false);}
+    return g;
   }
-  function cancel(){finish({rollback:true});}
-  async function commit(originalIds,orderedIds,sourceId){
-    if(same(originalIds,orderedIds))return;
+  function cancel(){end(true)}
+  async function commit(before,after,id){
+    if(same(before,after))return;
     pending=true;root.setAttribute('aria-busy','true');
-    try{const restoreFocus=await onCommit(originalIds,orderedIds,sourceId);if(restoreFocus!==false)focusHandle(sourceId);}
-    catch(error){if(onError(error)!==false)focusHandle(sourceId);}
-    finally{pending=false;root.removeAttribute('aria-busy');}
+    try{await onCommit(before,after,id)}
+    catch(error){onError(error)}
+    finally{pending=false;root.removeAttribute('aria-busy')}
   }
-  function placeAt(y){
-    const current=gesture;if(!current?.started)return;
-    const others=rows().filter(row=>row!==current.row),next=others.find(row=>{const box=row.getBoundingClientRect();return y<box.top+box.height/2;});
-    if(next)root.insertBefore(current.row,next);else root.append(current.row);
+  function pointTarget(x,y){
+    const other=rows().filter(row=>row!==gesture.row);
+    let target=null,best=Infinity;
+    for(const row of other){
+      const r=row.getBoundingClientRect();
+      const dx=Math.max(0,r.left-x,x-r.right);
+      const dy=Math.max(0,r.top-y,y-r.bottom);
+      const distance=dx*dx+dy*dy;
+      if(distance<best){best=distance;target=row;}
+    }
+    return target;
   }
-  function paint(){
-    const current=gesture;if(!current?.started)return;
-    current.ghost.style.top=(current.y-current.grabY)+'px';
-    const listBox=root.getBoundingClientRect(),top=Math.max(0,document.querySelector('.tabs')?.getBoundingClientRect().bottom||0),edge=72;
-    let speed=0;
-    if(current.y<top+edge&&listBox.top<top)speed=-Math.ceil(Math.min(1,(top+edge-current.y)/edge)*16);
-    else if(current.y>innerHeight-edge&&listBox.bottom>innerHeight)speed=Math.ceil(Math.min(1,(current.y-innerHeight+edge)/edge)*16);
-    if(speed)window.scrollBy(0,speed);
-    placeAt(current.y);frame=requestAnimationFrame(paint);
+  function move(x,y){
+    if(!gesture?.started)return;
+    const g=gesture;
+    g.ghost.style.transform='translate3d('+(x-g.startX)+'px,'+(y-g.startY)+'px,0)';
+    const target=pointTarget(x,y);
+    if(!target||target===g.row)return;
+    const original=g.originalIds.indexOf(g.row.dataset.personId);
+    const targetIndex=ids().indexOf(target.dataset.personId);
+    const sourceIndex=ids().indexOf(g.row.dataset.personId);
+    if(sourceIndex<targetIndex)root.insertBefore(g.row,target.nextSibling);
+    else root.insertBefore(g.row,target);
+    void original;
+    if(y<85)window.scrollBy(0,-9);
+    else if(y>innerHeight-70)window.scrollBy(0,9);
   }
-  function start(current){
-    current.started=true;suppressClickUntil=performance.now()+800;onDragChange(true);
-    const box=current.row.getBoundingClientRect(),ghost=document.createElement('div');
-    ghost.className='reorder-ghost';ghost.setAttribute('aria-hidden','true');
-    const summary=current.row.querySelector('summary').cloneNode(true);summary.removeAttribute('aria-label');ghost.append(summary);
-    ghost.style.width=box.width+'px';ghost.style.left=box.left+'px';ghost.style.top=box.top+'px';document.body.append(ghost);
-    current.ghost=ghost;current.grabY=Math.min(Math.max(0,current.startY-box.top),56);
-    current.row.classList.add('is-drag-source');current.handle.setAttribute('aria-pressed','true');root.classList.add('is-reordering');paint();
+  function begin(){
+    const g=gesture;
+    if(!g||g.started||pending)return;
+    g.started=true;g.row.classList.add('is-drag-source');root.classList.add('is-reordering');document.body.classList.add('watch-dragging');onDragChange(true);
+    const ghost=g.row.cloneNode(true),rect=g.row.getBoundingClientRect();
+    ghost.classList.add('reorder-ghost');ghost.setAttribute('aria-hidden','true');ghost.removeAttribute('id');
+    ghost.style.cssText='position:fixed;pointer-events:none;z-index:9999;left:'+rect.left+'px;top:'+rect.top+'px;width:'+rect.width+'px;height:'+rect.height+'px;opacity:.92;overflow:hidden;transform:translate3d(0,0,0)';
+    ghost.querySelectorAll('[id]').forEach(n=>n.removeAttribute('id'));
+    g.ghost=ghost;document.body.append(ghost);
+    if(navigator.vibrate)try{navigator.vibrate(16)}catch{}
   }
-  root.addEventListener('pointerdown',event=>{
-    const handle=event.target.closest('.reorder-handle');
-    if(!handle||!root.contains(handle)||!tablet.matches||pending||!event.isPrimary||event.button!==0)return;
-    cancel();const row=handle.closest('[data-person-id]');if(!row||rows().length<2)return;
-    event.preventDefault();handle.focus({preventScroll:true});
-    gesture={row,handle,pointerId:event.pointerId,startX:event.clientX,startY:event.clientY,y:event.clientY,nodes:[...root.children],originalIds:ids(),started:false};
-    try{root.setPointerCapture(event.pointerId);}catch{}
-  });
-  document.addEventListener('pointermove',event=>{
-    const current=gesture;if(!current||current.pointerId!==event.pointerId)return;
-    if(!tablet.matches){cancel();return;}
-    event.preventDefault();current.y=event.clientY;
-    if(!current.started&&Math.hypot(event.clientX-current.startX,event.clientY-current.startY)>=8)start(current);
-    if(current.started)placeAt(current.y);
+  function beginCandidate(row,x,y,type){
+    cancel();
+    if(pending||rows().length<2)return;
+    gesture={row,startX:x,startY:y,x,y,nodes:[...root.children],originalIds:ids(),started:false,type};
+    holdTimer=setTimeout(()=>{holdTimer=0;begin()},HOLD_MS);
+  }
+  // Touch: no preventDefault before the hold, so ordinary vertical scrolling works.
+  root.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1||blocked(e.target))return;
+    const row=tile(e.target);if(!row||!root.contains(row))return;
+    const t=e.touches[0];beginCandidate(row,t.clientX,t.clientY,'touch');
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    const g=gesture;if(!g||g.type!=='touch')return;
+    const t=[...e.touches].find(t=>true);
+    if(!t){cancel();return}
+    if(!g.started){
+      if(Math.hypot(t.clientX-g.startX,t.clientY-g.startY)>MOVE_CANCEL_PX)cancel();
+      return;
+    }
+    e.preventDefault();
+    move(t.clientX,t.clientY);
   },{passive:false});
-  document.addEventListener('pointerup',event=>{
-    const current=gesture;if(!current||current.pointerId!==event.pointerId)return;
-    const bounds=root.getBoundingClientRect();
-    if(current.started&&(event.clientX<bounds.left||event.clientX>bounds.right)){event.preventDefault();finish({rollback:true});return;}
-    if(current.started){event.preventDefault();suppressClickUntil=performance.now()+800;placeAt(event.clientY);}
-    const orderedIds=ids(),done=finish();
-    if(done.started)void commit(done.originalIds,orderedIds,done.row.dataset.personId);
+  document.addEventListener('touchend',e=>{
+    const g=gesture;if(!g||g.type!=='touch')return;
+    const t=e.changedTouches[0];
+    if(g.started){e.preventDefault();if(t)move(t.clientX,t.clientY)}
+    const ordered=ids(),done=end(false);
+    if(done?.started)void commit(done.originalIds,ordered,done.row.dataset.personId);
+  },{passive:false});
+  document.addEventListener('touchcancel',()=>{if(gesture?.type==='touch')cancel()});
+  // Mouse/pen: hold to reorder instead of dragging on the first movement.
+  root.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch'||e.button!==0||blocked(e.target))return;
+    const row=tile(e.target);if(row&&root.contains(row))beginCandidate(row,e.clientX,e.clientY,'pointer');
   });
-  document.addEventListener('pointercancel',event=>{if(gesture?.pointerId===event.pointerId)cancel();});
-  root.addEventListener('lostpointercapture',event=>{if(gesture?.pointerId===event.pointerId)cancel();});
-  document.addEventListener('pointerdown',event=>{if(gesture&&gesture.pointerId!==event.pointerId)cancel();},true);
-  root.addEventListener('click',event=>{
-    if(event.target.closest('.reorder-handle')){event.preventDefault();event.stopPropagation();}
-    else if(performance.now()<suppressClickUntil){event.preventDefault();event.stopPropagation();}
+  document.addEventListener('pointermove',e=>{
+    const g=gesture;if(!g||g.type!=='pointer')return;
+    if(!g.started&&Math.hypot(e.clientX-g.startX,e.clientY-g.startY)>MOVE_CANCEL_PX){cancel();return}
+    if(g.started)move(e.clientX,e.clientY);
+  });
+  document.addEventListener('pointerup',e=>{
+    const g=gesture;if(!g||g.type!=='pointer')return;
+    if(g.started)move(e.clientX,e.clientY);
+    const ordered=ids(),done=end(false);
+    if(done?.started)void commit(done.originalIds,ordered,done.row.dataset.personId);
+  });
+  root.addEventListener('contextmenu',e=>{if(gesture){e.preventDefault()}});
+  root.addEventListener('click',e=>{
+    if(performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation()}
   },true);
-  root.addEventListener('keydown',event=>{
-    if(event.key==='Escape'){cancel();return;}
-    const handle=event.target.closest('.reorder-handle');
-    if(!handle||!tablet.matches||pending||!event.altKey||!['ArrowUp','ArrowDown'].includes(event.key))return;
-    event.preventDefault();cancel();const originalIds=ids(),sourceId=handle.closest('[data-person-id]').dataset.personId,index=originalIds.indexOf(sourceId),destination=index+(event.key==='ArrowUp'?-1:1);
-    if(destination<0||destination>=originalIds.length)return;
-    const orderedIds=[...originalIds];[orderedIds[index],orderedIds[destination]]=[orderedIds[destination],orderedIds[index]];
-    void commit(originalIds,orderedIds,sourceId);
+  root.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){cancel();return}
+    const row=tile(e.target);
+    if(!row||!root.contains(row)||!e.altKey||!['ArrowUp','ArrowDown'].includes(e.key))return;
+    e.preventDefault();
+    const before=ids(),idx=before.indexOf(row.dataset.personId),next=idx+(e.key==='ArrowUp'?-1:1);
+    if(next<0||next>=before.length)return;
+    const after=[...before];[after[idx],after[next]]=[after[next],after[idx]];
+    void commit(before,after,row.dataset.personId);
   });
-  document.addEventListener('keydown',event=>{if(event.key==='Escape')cancel();});
   window.addEventListener('pagehide',cancel);
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cancel();});
-  tablet.addEventListener('change',cancel);
-  return {cancel,get active(){return !!gesture?.started;}};
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cancel()});
+  return {cancel,get active(){return Boolean(gesture?.started)}};
 }
