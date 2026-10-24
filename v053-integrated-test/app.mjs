@@ -2,7 +2,7 @@ import {STATES,LIMITS,defaults,collectPosts,promoteInbox,removeInbox,setInboxSel
 import {createStore} from './storage.mjs';
 import {patrolState,sortCandidates,shortGenres} from './candidate-ui.mjs';
 import {setupReorder} from './reorder-ui.mjs';
-import {setupAnalytics,analyticsFor,refreshMetrics} from './analytics.mjs';
+import {setupAnalytics,analyticsFor,refreshMetrics,primeCandidates} from './analytics.mjs';
 const $=id=>document.getElementById(id);
 const el=(tag,text='',cls='')=>{const n=document.createElement(tag);n.textContent=text;if(cls)n.className=cls;return n;};
 const on=(id,type,fn)=>$(id).addEventListener(type,e=>{try{Promise.resolve(fn(e)).catch(error=>notice(error.message||'処理できませんでした。',true));}catch(error){notice(error.message||'処理できませんでした。',true);}});
