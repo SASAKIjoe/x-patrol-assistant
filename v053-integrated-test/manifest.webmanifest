@@ -1,0 +1,53 @@
+{
+  "id": "/x-patrol-assistant/v053-integrated-test/",
+  "name": "SNS WATCH BOX 053 統合",
+  "short_name": "WATCH BOX",
+  "description": "最小文字のウォッチリスト。✔は人間確認済み、−は新着未判定。",
+  "lang": "ja",
+  "start_url": "/x-patrol-assistant/v053-integrated-test/",
+  "scope": "/x-patrol-assistant/v053-integrated-test/",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#242424",
+  "prefer_related_applications": false,
+  "categories": [
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "../v051-ui-test/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../v051-ui-test/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../v051-ui-test/maskable512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "share_target": {
+    "action": "/x-patrol-assistant/v053-integrated-test/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
+}
