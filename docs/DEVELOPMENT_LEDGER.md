@@ -1,0 +1,68 @@
+# SNS WATCH BOX (仮) — Development Ledger
+Updated: 2026-10-24 JST
+Repository: https://github.com/SASAKIjoe/x-patrol-assistant
+
+## Mandatory start-of-task gate
+
+BEFORE proposing, implementing, or submitting new Work for this application:
+1. Read THIS ledger first, then fetch the corresponding source files, release notes and test artifacts from GitHub.
+2. Identify the existing implementation of every requested feature across versions, not just the newest numbered version.
+3. Reuse the most complete proven implementation. No re-creation of previously implemented functions without a documented reason.
+4. Define a preservation/regression checklist before changes. Build in a NEW isolated directory; do not overwrite stable/test paths or user data.
+5. After implementation, verify every dependency, interactive flow, data migration, PWA scope/cache and Android Human Gates. Update this ledger with concrete evidence and unresolved issues.
+6. Do not say a test has passed if only source inspection or static parsing occurred. Do not claim true X new-post detection for local list refresh.
+
+## Product principles (confirmed by user)
+
+- Android tablet PWA first, free/low-cost, compact high-density three-column cards on tablet portrait; minimal on-screen words to reduce unconscious reading fatigue.
+- Tapping anywhere on the card outside actionable buttons/links opens/closes detail. Small chevron-only targets are unacceptable.
+- X opened externally -> return to the same card/scroll position, preserve tab/filter/sort/expanded state.
+- Human reads posts and manually likes; no automatic liking, following or scraping X.
+- Distinct signals: manually checked ✔; objectively detected new post ('New' or ● only when feed evidence exists); unknown −. A local refresh is NOT an X update check.
+- Track self-reported manual likes with timestamps, registration date, user-confirmed follower conversion date and days; distinguish follow confirmation from human visit confirmation. Correlation is not causation.
+- Genre CRUD, collection inbox, X Android share target, duplicate detection, bulk promotion, morning/evening patrol, backup/restore and existing data protection are mandatory inherited features.
+- App name: SNS WATCH BOX（仮）; legal trademark clearance not completed. English-only artifact filenames.
+- Target: prioritize users not yet following the account, avoid implying that account follows automatically.
+
+## Verified repository implementation map
+
+| Directory | What is implemented or evidenced | Status / caveat |
+|---|---|---|
+| / (root) | Initial X巡回アシスタント V0.2 PWA | Preserve |
+| v04-test/ | Manual X post URL intake, candidate management | Preserve |
+| v05-test/ | Android X share target -> inbox, repeated shares, bulk candidate registration, persistence, duplicate rejection | Core flow user-tested on Android; preserve |
+| v051-ui-test/ | Dense candidate list, collapse, check ✔, local reordering/refresh, view-position recovery, genre/inbox/patrol | Source inspected; use as base as needed |
+| **v051-rss-test/** | **Existing free RSS-based X-post monitoring!** Uses keep.md RSS, compares verified author's X status IDs, initial baseline, retry scheduling, last-seen/ack state; candidate checks on app open. Source: rss.mjs, app.mjs, README.md, RESULT.md. | Report says unit 74, regression 18, compact 21, reorder 23, RSS browser 12, live RSS 4; Android all-candidate real-device test NOT_TESTED. External feed reliability/TOS unknown. Do NOT forget or rebuild from scratch. |
+| v052-analytics-test/ | Separate three-column cards, manual-like count/time-stamped events, follower confirmation and conversion rate; whole-card tap fixed and user confirmed comfortable | Lacked inbox/share, patrol, RSS, etc.; do NOT treat as complete successor |
+| v053-integrated-test/ | Attempted integration based on v051-ui-test plus analytics; 14 dependencies/source syntax verified, 3-column CSS and GitHub files published | **RSS was omitted because wrong base was chosen.** Remote browser QA navigated to wrong root V0.2; it does NOT validate v053 functionality. Android NOT_TESTED. Do not promote as complete. |
+
+## RSS details — critically important
+
+Source: `v051-rss-test/rss.mjs`; README: `v051-rss-test/README.md`; result: `v051-rss-test/RESULT.md`.
+- Uses Keep free X RSS endpoint at keep.md; external third party, not X official RSS. No guarantee of uptime or complete post coverage.
+- `RSS_CHECK_INTERVAL_MS = 6h` successful checks, `RSS_RETRY_INTERVAL_MS = 1h` failed checks; requests spaced >= 1,250 ms when app is active.
+- Provider's published feed updates reportedly about once per 24h with recent 20 posts; do not equate check interval with source freshness.
+- `newestOwnPost` checks canonical URL AND dc:creator matches intended account. Initial observation seeds baseline; only later verified newer status ID yields new indicator.
+- Opening PWA can process due handles, with resumable queue. PWA closed does NOT poll in background; no live notifications or guaranteed feed coverage.
+- External RSS service usage/availability must be re-validated before promising ongoing reliability or deploying widely.
+- Reuse working RSS implementation rather than claiming X RSS cannot be done.
+
+## Known failures and guardrails
+
+- V0.4 previously showed unstyled/nonfunctional app because `style.css`, `app.mjs`, `core.mjs` were uploaded separately and omitted; recursive dependency audit REQUIRED.
+- V0.5 local PWA launch initially failed but user later confirmed launch/share operation. Don't change stable version's SW or PWA identity.
+- V0.5.2 initial card changes were cached; revisioned asset URLs made whole-card tap work. Test cache migration/update on Android.
+- Naming/numbering is not an indicator of feature completeness: NEVER assume later version contains earlier RSS.
+- GitHub connector scoped to `SASAKIjoe/x-patrol-assistant` successfully performed create/read/delete in Oct 2026; Work-side connector permissions can differ.
+- GitHub Pages public files are code only; never upload real accounts, private watch lists or JSON backups.
+- Avoid paid TinyFish browser service for routine tests unless user has approved charges; use free/local tests and actual Android Human Gate.
+
+## Next required engineering task
+
+Consolidate `v051-rss-test` + fully functioning V0.5 share/inbox/patrol/genre + compact three-column whole-card-tap UI + position restoration + non-destructive analytics from v052/v053.
+Build in a NEW `v054-...-test/` directory only. Verify complete feature checklist and source-level + browser E2E, then one Android Human Gate; do not tell user to install a half-integrated version.
+No work is currently claimed completed for this consolidation.
+
+## Maintenance policy
+
+Append each release's source paths, proven tests, current blockers, data format, and known regressions immediately after work. This ledger is the source-of-truth index, but actual GitHub implementation remains authoritative. A new chat cannot be guaranteed to automatically open this file; at the START of every SNS WATCH BOX development request, explicitly fetch/read this ledger.
