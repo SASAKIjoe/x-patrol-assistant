@@ -78,3 +78,14 @@ Append each release's source paths, proven tests, current blockers, data format,
 - NOT YET VERIFIED: actual Pages browser runtime, Android installed PWA + X share-to-inbox, RSS access from Android and third-party feed success, backup/restore, scroll return, complete interactivity across real users. **HOLD — do not claim formally complete without Android test**.
 - External Keep RSS has no uptime guarantee and may be restricted or changed; feed update cadence is not the same as checking frequency.
 - Future work: browser/Android E2E with inherited user dataset; fix discovered failures only in v054 test path, update cache version when code changes, and only then consider promotion.
+
+
+## 2026-10-24 — V054 compact RSS dot + long-press reorder patch
+
+- Android user reported the big `New` text was crowded and card order couldn't be changed. Requested green dot and long-press drag.
+- Changed `v054-watch-test/app.mjs` to represent RSS-verified new status by ● (descriptive accessibility text retained); aggregate New N remains.
+- Changed `v054-watch-test/style.css`: compact 11px green dot, drag ghost and source styles.
+- Replaced `v054-watch-test/reorder-ui.mjs`: 450ms long-press on non-interactive card surface, drag to reorder grid, normal scroll pre-longpress, exclude action buttons, mouse/pointer and Alt+Arrow keyboard support; existing onCommit persists order and manual sort.
+- Bumped `v054-watch-test/sw.js` cache version to `20261024-drag-dot-v2`.
+- GitHub readback and JS syntax PASS. Android actual drag, scroll, saved order, cache refresh not yet tested (Human Gate).
+- No other versions were modified.
