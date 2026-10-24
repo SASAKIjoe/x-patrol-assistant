@@ -111,12 +111,12 @@ function renderPeople(positionOverride){
   renderingPeople=true;root.replaceChildren();const people=visiblePeople();$('peopleCount').textContent=people.length+' / '+data.people.length+'人';
   updateScanStatus();
   if(!people.length)root.append(el('p',data.people.length?'条件に合う候補がいません。絞り込みを変更してください。':'候補はまだありません。収集BOXから候補に登録してください。','empty'));
-  for(const p of people){
+  for(const [numberIndex,p] of people.entries()){
     const item=el('article','','item person-item');item.dataset.personId=p.id;item.id='candidate-'+p.id;
     const accordion=el('details','','person-accordion');accordion.open=expandedPeople.has(p.id);
     const summary=el('summary','','person-summary'),state=displayState(p),names=p.genres.map(id=>data.genres.find(g=>g.id===id)?.name).filter(Boolean);
     const genre=el('span',shortGenres(names),'candidate-genre');genre.title=genreNames(p.genres);
-    const chip=el('span',state.label,'patrol-chip '+state.css);chip.setAttribute('aria-hidden','true');chip.title=state.spoken;const arrow=el('span','⌄','accordion-arrow');arrow.setAttribute('aria-hidden','true');summary.setAttribute('aria-label','@'+p.handle+'、'+genreNames(p.genres)+'、'+state.spoken+'、詳細');summary.append(el('strong','@'+p.handle,'candidate-handle'),genre,chip,arrow);accordion.append(summary);
+    const chip=el('span',state.label,'patrol-chip '+state.css);chip.setAttribute('aria-hidden','true');chip.title=state.spoken;const arrow=el('span','⌄','accordion-arrow');arrow.setAttribute('aria-hidden','true');summary.setAttribute('aria-label','@'+p.handle+'、'+genreNames(p.genres)+'、'+state.spoken+'、詳細');summary.append(el('span',String(numberIndex+1).padStart(2,'0'),'card-index'),el('strong','@'+p.handle,'candidate-handle'),genre,chip,arrow);accordion.append(summary);
     accordion.addEventListener('toggle',()=>{if(renderingPeople||!accordion.isConnected)return;if(accordion.open)expandedPeople.add(p.id);else expandedPeople.delete(p.id);snapshotView();});
     const body=el('div','','person-body'),top=el('div','','row confirmation-tools');top.append(link('https://x.com/'+p.handle,'X ↗','person-link'),...confirmationButtons(p));top.firstElementChild.setAttribute('aria-label','@'+p.handle+'のXプロフィールを開く');
     const status=el('select');for(const s of STATES)status.add(new Option(s,s));status.value=p.status;status.setAttribute('aria-label','@'+p.handle+'の状態');status.addEventListener('change',()=>save(d=>{const current=d.people.find(x=>x.id===p.id);if(!current)throw new Error('候補がありません。');current.status=status.value;return d;},'状態を保存しました。').catch(e=>{status.value=p.status;notice(e.message,true);}));
