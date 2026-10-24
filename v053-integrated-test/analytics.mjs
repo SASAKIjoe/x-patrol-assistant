@@ -62,5 +62,14 @@ export function setupAnalytics(){
  input.onchange=async()=>{try{await importFile(input.files[0])}catch(e){alert(e.message)}finally{input.value=''}};
  refreshMetrics();
 }
+export function primeCandidates(people){
+ let dirty=false;
+ for(const p of people||[]){if(!valid(p.handle))continue;const k=p.handle.toLowerCase();if(byHandle.has(k))continue;
+ const initialDate=(p.posts?.[0]?.addedAt||p.addedAt||p.createdAt||'').slice(0,10);
+ byHandle.set(k,{handle:p.handle,registered:dateOK(initialDate)?initialDate:utcDay(),likes:0,events:[],followDate:null});dirty=true;
+ }
+ if(dirty)persist();
+ refreshMetrics();
+}
 export function analyticsFor(person){return {controls:makeControls(person),detail:addDetail(person)}}
 export {refreshMetrics};
