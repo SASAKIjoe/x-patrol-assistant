@@ -37,3 +37,12 @@
 
 #personList .accordion-arrow{display:none}
 #personList .person-item:focus-within{outline-offset:1px}
+
+/* V054 touch-and-hold reordering and a quiet RSS status dot */
+#personList .patrol-chip.is-new{font-size:0!important;width:11px!important;height:11px!important;min-width:11px!important;min-height:11px!important;border:0!important;border-radius:50%!important;background:#168b5d!important;box-shadow:0 0 0 2px #e6f5ed;align-self:center}
+#personList .is-drag-source{opacity:.38;outline:2px dashed #168b5d!important}
+#personList.is-reordering{user-select:none}
+body.watch-dragging{user-select:none}
+body .reorder-ghost{border:1px solid #168b5d!important;border-radius:10px!important;box-shadow:0 10px 24px #0002!important;background:#fff!important;overflow:hidden!important;pointer-events:none!important;opacity:.94!important;z-index:9999!important;display:block!important}
+#personList .person-item{user-select:none;-webkit-user-select:none}
+#personList .person-body{user-select:text;-webkit-user-select:text}
