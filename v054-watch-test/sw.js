@@ -3,7 +3,7 @@
 // Change this version whenever any runtime file changes before deployment.
 // The old root worker deletes x-patrol-*; this separate prefix survives it.
 const CACHE_PREFIX = 'xp054-watch-shell-';
-const CACHE_NAME = `${CACHE_PREFIX}20261024-drag-mode-v3`;
+const CACHE_NAME = `${CACHE_PREFIX}20261024-tap-sort-v4`;
 const APP_ROOT = new URL(self.registration.scope);
 const INDEX_URL = new URL('index.html', APP_ROOT).href;
 const REQUIRED_FILES = Object.freeze([
