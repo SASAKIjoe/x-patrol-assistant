@@ -9,10 +9,11 @@ const byHandle=new Map();
 let initialSource='new';
 try{
  const existing=JSON.parse(localStorage.getItem(KEY)||'null');
- if(existing?.records&&Array.isArray(existing.records)){for(const x of existing.records){if(valid(x.handle))byHandle.set(x.handle.toLowerCase(),x)}initialSource='v053'}
+ if(existing?.records&&Array.isArray(existing.records)){for(const x of existing.records){if(valid(x.handle))byHandle.set(x.handle.toLowerCase(),x)}initialSource='v054'}
  else{
-  const legacy=JSON.parse(localStorage.getItem(PREVIOUS)||'null');
-  if(Array.isArray(legacy)){for(const x of legacy){if(valid(x.handle))byHandle.set(x.handle.toLowerCase(),{handle:x.handle,registered:dateOK(x.registered)?x.registered:utcDay(),likes:Math.max(0,Number(x.likes)||0),events:Array.isArray(x.likeEvents)?x.likeEvents:[],followDate:dateOK(x.followDate)?x.followDate:null})}initialSource='v052';}
+  const legacy=JSON.parse(localStorage.getItem('sns-watch-box-v053-analytics')||localStorage.getItem(PREVIOUS)||'null');
+  if(Array.isArray(legacy?.records)){for(const x of legacy.records){if(valid(x.handle))byHandle.set(x.handle.toLowerCase(),x)}initialSource='v053';}
+  else if(Array.isArray(legacy)){for(const x of legacy){if(valid(x.handle))byHandle.set(x.handle.toLowerCase(),{handle:x.handle,registered:dateOK(x.registered)?x.registered:utcDay(),likes:Math.max(0,Number(x.likes)||0),events:Array.isArray(x.likeEvents)?x.likeEvents:[],followDate:dateOK(x.followDate)?x.followDate:null})}initialSource='v052';}
  }
 }catch{}
 const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify({version:1,records:[...byHandle.values()]}));return true}catch{alert('分析データを保存できません。保存容量を確認してください。');return false}};
