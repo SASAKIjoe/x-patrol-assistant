@@ -1,13 +1,28 @@
-# SNS WATCH BOX｜登録候補の無料RSS確認
+# SNS WATCH BOX V0.5.4 — Integrated PWA Test
 
-公開試験URL: https://sasakijoe.github.io/x-patrol-assistant/v051-rss-test/
+Test URL: https://sasakijoe.github.io/x-patrol-assistant/v054-watch-test/
 
-候補に登録した公開Xアカウントは、アプリを開いている間に順番にRSS照合します。初回の本人投稿は基準として保存し、●を出しません。次の本人投稿IDを取得できた場合だけ●を表示します。画面上の更新ボタンは不要です。✔は人間がXの投稿を見た記録で、いいねではありません。
+## Included without removing prior features
 
-多数の候補は約1.25秒以上の間隔を空けて確認します。100人なら取得時間も含めて数分かかることがあります。途中で閉じた場合は、次に開いたとき未処理の候補から続けます。取得失敗は新着未判定の「−」で、以前に確認した●を消しません。手動の再確認は「?」内にあります。
+- X Android Web Share Target -> collection inbox -> duplicate suppression -> batch promotion.
+- Genre add/edit/delete, genre counts/targets and searching, candidate status.
+- Morning/evening manual patrol, human-checked ✔, saved check history, view-position return.
+- RSS-based public X post checks inherited from `v051-rss-test/rss.mjs`: initial baseline; subsequently newly verified status ID => **New**; failures => unknown −. Checks only while PWA page is open. External Keep RSS availability, feed completeness and X/third-party terms remain unverified for wide rollout.
+- Dense 3-column candidate cards, whole card surface opens detail, buttons/links operate independently.
+- Manually entered ♥/♡ event counts and user-confirmed follower conversion dates; registration-to-confirmation interval and aggregate rate.
+- JSON backups for the full candidate/RSS records plus separate "♡記録" backup of analytics. They are **separate datasets**.
+- All records stored per device, not in this public repository.
 
-提供元は[Keepの無料X RSS](https://keep.md/tools/twitter-rss-feed)です。公開プロフィールのみ、配信更新は約24時間ごと、直近20件です。投稿が多い人や配信が止まった人は見逃し得ます。PWAを閉じている間の巡回・端末通知・自動いいねはありません。X公式APIと当アプリによるXスクレイピングは使用しません。
+## Data protection
 
-保存先 `xpatrol-v051-rss-test`、PWAのIDとキャッシュは旧版と分離されています。旧 `v051-ui-test/` からの初回コピーは読み取り専用です。すでにこのRSS試験版を使っている場合は同じ保存領域を引き継ぎます。JSONバックアップには候補・確認・RSS基準を含みます。大量登録後は「保存」からJSONを保存してください。
+Independent IndexedDB database `xpatrol-v054-watch-test`. On first use it attempts a read-only copy from `v051-rss-test` first, then from `v051-ui-test`, V0.5 and local legacy datasets. Old databases are not overwritten. Sidecar localStorage `sns-watch-box-v054-analytics` reads previous analytics data from V053 and V052 if present; does not overwrite them.
 
-Android実機での全候補照合は未検証です。手順はAndroid.md、結果はRESULT.mdをご覧ください。
+For a different Android browser or device, export both JSON backups from the source version before migration.
+
+## Status
+
+GitHub source dependencies and JavaScript parsing checked. Unit-level baseline/new-post RSS state checked. **Android real-device, published Pages browser E2E, share receipt, and third-party RSS availability have not yet been verified for THIS v054 release.** Do not claim full PASS until the Human Gate has been completed.
+
+## Guardrails
+
+No automated liking/following. No X scraping, password/token storage, paid server, or background network polling. The latest original codebases in sibling folders are preserved.
