@@ -2,7 +2,7 @@
 // Normal swipes scroll; interactive controls never initiate drag.
 export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}}){
   const HOLD_MS=450, MOVE_CANCEL_PX=10;
-  let gesture=null,holdTimer=0,pending=false,suppressUntil=0,mode=false;
+  let gesture=null,holdTimer=0,pending=false,suppressUntil=0,mode=false,selectionOnly=false;
   const rows=()=>[...root.children].filter(x=>x.dataset.personId);
   const ids=()=>rows().map(x=>x.dataset.personId);
   const same=(a,b)=>a.length===b.length&&a.every((v,i)=>v===b[i]);
@@ -74,7 +74,7 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
   }
   // Touch: no preventDefault before the hold, so ordinary vertical scrolling works.
   root.addEventListener('touchstart',e=>{
-    if(mode||e.touches.length!==1||blocked(e.target))return;
+    if(mode||selectionOnly||e.touches.length!==1||blocked(e.target))return;
     const row=tile(e.target);if(!row||!root.contains(row))return;
     const t=e.touches[0];beginCandidate(row,t.clientX,t.clientY,'touch');
   },{passive:true});
@@ -99,7 +99,7 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
   document.addEventListener('touchcancel',()=>{if(gesture?.type==='touch')cancel()});
   // Mouse/pen: hold to reorder instead of dragging on the first movement.
   root.addEventListener('pointerdown',e=>{
-    if((e.pointerType==='touch'&&!mode)||e.button!==0||(!mode&&blocked(e.target)))return;
+    if(selectionOnly||(e.pointerType==='touch'&&!mode)||e.button!==0||(!mode&&blocked(e.target)))return;
     const row=tile(e.target);if(row&&root.contains(row)){beginCandidate(row,e.clientX,e.clientY,'pointer');if(mode){clearTimer();begin();try{root.setPointerCapture(e.pointerId)}catch{}}}
   });
   document.addEventListener('pointermove',e=>{
@@ -130,5 +130,6 @@ export function setupReorder({root,onCommit,onDragChange=()=>{},onError=()=>{}})
   window.addEventListener('pagehide',cancel);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cancel()});
   function setMode(enabled){cancel();mode=Boolean(enabled);root.classList.toggle('reorder-mode',mode);root.setAttribute('aria-label',mode?'並べ替えモードです。カードを指で移動してください。':'候補一覧');return mode;}
-  return {cancel,setMode,get mode(){return mode},get active(){return Boolean(gesture?.started)}};
+  function setSelectionMode(enabled){cancel();selectionOnly=Boolean(enabled);mode=false;root.classList.remove('reorder-mode');root.classList.toggle('pick-reorder-mode',selectionOnly);return selectionOnly;}
+  return {cancel,setMode,setSelectionMode,commitOrder:commit,get mode(){return mode},get active(){return Boolean(gesture?.started)}};
 }
